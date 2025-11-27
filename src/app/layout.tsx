@@ -17,14 +17,14 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Neon Core - Future Wear',
+  title: 'Neon Core - Moda del Futuro',
   description:
-    'Hoodies, Playeras y Gorras diseñadas para la distopía digital. Tejidos de alta densidad, estética agresiva y comodidad para el caos urbano.',
-  keywords: ['streetwear', 'cyberpunk', 'hoodie', 'ropa urbana', 'neon'],
+    'Hoodies, playeras y gorras premium de calidad superior. Diseño urbano moderno, tejidos duraderos y estilo que define tu identidad.',
+  keywords: ['streetwear', 'hoodie premium', 'moda urbana', 'ropa de calidad', 'neon'],
   openGraph: {
-    title: 'Neon Core - Future Wear',
+    title: 'Neon Core - Moda del Futuro',
     description:
-      'Hoodies, Playeras y Gorras diseñadas para la distopía digital.',
+      'Hoodies, playeras y gorras premium. Diseño urbano con tejidos de alta calidad.',
     type: 'website',
   },
 }

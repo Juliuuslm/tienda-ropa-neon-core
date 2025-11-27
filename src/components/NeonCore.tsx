@@ -175,7 +175,7 @@ const NeonCore: React.FC = () => {
               onClick={toggleModal}
               className="hidden md:flex items-center space-x-2 bg-white text-black px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 hover:scale-105 active:scale-95 transition-all duration-base shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.6)]"
             >
-              <span>Join Protocol</span>
+              <span>Únete Ahora</span>
               <ArrowRight size={14} />
             </button>
             <button
@@ -206,7 +206,7 @@ const NeonCore: React.FC = () => {
             onClick={toggleModal}
             className="mt-6 bg-cyan-400 text-black px-6 py-3 text-base font-bold uppercase tracking-wide hover:bg-white transition-all duration-base min-h-[44px]"
           >
-            Join Protocol
+            Únete Ahora
           </button>
         </div>
       )}
@@ -274,7 +274,7 @@ const NeonCore: React.FC = () => {
               ></div>
             </div>
             <div className="text-[10px] text-cyan-400 font-mono tracking-[0.4em] uppercase opacity-90 animate-pulse border-t border-cyan-500/30 pt-2 px-4">
-              Signal Detected
+              Señal Activa
             </div>
           </div>
 
@@ -285,11 +285,11 @@ const NeonCore: React.FC = () => {
             <div className="hidden md:block absolute -bottom-4 -right-8 w-8 h-8 border-b-2 border-r-2 border-cyan-500/50"></div>
 
             <div className="text-reveal-wrapper overflow-hidden">
-              <span className="block reveal-child delay-100" style={{ animationDelay: '0.1s' }}>Future</span>
+              <span className="block reveal-child delay-100" style={{ animationDelay: '0.1s' }}>Moda</span>
             </div>
             <div className="text-reveal-wrapper overflow-hidden">
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 reveal-child delay-200" style={{ animationDelay: '0.2s' }}>
-                Wear
+                del Futuro
               </span>
             </div>
           </h1>
@@ -313,7 +313,7 @@ const NeonCore: React.FC = () => {
               className="group bg-cyan-400 text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-2">
-                Explorar Drop <ShoppingBag size={18} />
+                Ver Colección <ShoppingBag size={18} />
               </span>
               <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-base ease-out z-0"></div>
             </button>
@@ -356,10 +356,10 @@ const NeonCore: React.FC = () => {
               <span className="text-stroke text-white">esencial.</span>
             </h2>
             <p className="text-gray-300 mb-6 font-body text-lg border-l-2 border-cyan-500 pl-4">
-              En Neon Core rechazamos el exceso. No hacemos catálogos infinitos.
-              Nos especializamos en lo único que necesitas para navegar la
-              ciudad: una hoodie indestructible, una playera gráfica y una gorra
-              que oculte tu identidad.
+              En Neon Core nos enfocamos en lo esencial. Cada pieza está diseñada
+              para perdurar. Solo ofrecemos lo que necesitas para navegar la
+              ciudad: una hoodie indestructible, una playera gráfica con estampado
+              de calidad y una gorra que define tu estilo.
             </p>
             <div className="grid grid-cols-2 gap-8 mt-12">
               <div className="group hover:-translate-y-2 transition-transform duration-base">
@@ -403,7 +403,7 @@ const NeonCore: React.FC = () => {
               Season 04 // Live Now
             </span>
             <h2 className="text-5xl font-display font-bold uppercase mt-2">
-              Core_Essentials
+              Lo Esencial
             </h2>
           </div>
           <button
@@ -457,7 +457,7 @@ const NeonCore: React.FC = () => {
                     onClick={toggleModal}
                     className="bg-cyan-400 text-black px-4 py-2 text-sm font-bold uppercase tracking-wider hover:bg-white transition-colors duration-base w-full"
                   >
-                    Desbloquear
+                    Comprar
                   </button>
                 </div>
               </div>
@@ -494,21 +494,21 @@ const NeonCore: React.FC = () => {
 
             <SectionWrapper className="order-1 md:order-2">
               <h2 className="text-5xl font-display font-bold uppercase mb-8">
-                Materiales <span className="text-stroke-cyan">NEON-READY</span>
+                Materiales <span className="text-stroke-cyan">PREMIUM</span>
               </h2>
               <ul className="space-y-6">
                 {[
                   {
-                    title: 'Algodón Bio-Híbrido',
-                    desc: '450 GSM. Pesado, estructurado y suave al tacto.',
+                    title: 'Algodón Premium',
+                    desc: 'Extra grueso y duradero. Perfecto para uso diario sin desgaste.',
                   },
                   {
-                    title: 'Estampado Reactivo',
-                    desc: 'Gráficos de alta densidad que no se agrietan con el tiempo.',
+                    title: 'Estampado de Calidad',
+                    desc: 'Gráficos de alta densidad que resisten múltiples lavadas.',
                   },
                   {
-                    title: 'Ajuste Oversized',
-                    desc: 'Corte diseñado para movimiento y capas tácticas.',
+                    title: 'Ajuste Perfecto',
+                    desc: 'Diseño cómodo que se adapta a cualquier tipo de cuerpo.',
                   },
                 ].map((feature: TechFeature, i: number) => (
                   <li
@@ -537,7 +537,7 @@ const NeonCore: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div>
             <h2 className="text-4xl md:text-5xl font-display font-bold uppercase">
-              Field <span className="text-cyan-400">Reports</span>
+              En las <span className="text-cyan-400">Calles</span>
             </h2>
             <div className="h-1 w-20 bg-cyan-400 mt-4"></div>
           </div>
@@ -621,7 +621,7 @@ const NeonCore: React.FC = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <h2 className="text-center text-4xl font-display font-bold uppercase mb-16">
-            Encrypted <span className="text-stroke text-white">Transmissions</span>
+            Opiniones <span className="text-stroke text-white">Reales</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -702,7 +702,7 @@ const NeonCore: React.FC = () => {
       {/* --- SECCIÓN 9: SOCIAL (Grid Stagger) --- */}
       <SectionWrapper id="comunidad" className="py-20 text-center">
         <h2 className="text-4xl font-display font-bold uppercase mb-12">
-          Global <span className="text-stroke text-white">Syndicate</span>
+          Comunidad <span className="text-stroke text-white">Global</span>
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
@@ -744,22 +744,22 @@ const NeonCore: React.FC = () => {
         <div className="container mx-auto px-4 text-center max-w-3xl relative z-10">
           <SectionWrapper>
             <h2 className="text-6xl md:text-8xl font-display font-bold uppercase mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
-              Join The <br /> Resistance
+              Únete al <br /> Movimiento
             </h2>
             <p className="text-xl text-cyan-400 mb-10 font-mono">
-              // Suscríbete para recibir drops exclusivos y coordenadas
-              secretas.
+              // Suscríbete para recibir descuentos exclusivos y acceso
+              a nuevas colecciones.
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-slow group-hover:duration-base"></div>
               <input
                 type="email"
-                placeholder="INGRESA TU CORREO"
+                placeholder="tu@email.com"
                 className="relative bg-black border border-white/20 text-white px-6 py-4 outline-none focus:border-cyan-400 w-full uppercase placeholder:text-gray-600 z-10"
               />
               <button className="relative bg-cyan-400 text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:scale-105 transition-all duration-base whitespace-nowrap z-10 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
-                Suscribirse
+                Quiero Acceso
               </button>
             </div>
           </SectionWrapper>
@@ -876,9 +876,9 @@ const NeonCore: React.FC = () => {
                 Acceso Restringido
               </h2>
               <p id="modal-description" className="text-gray-300 mb-8 font-mono text-sm">
-                &gt; DETECTED: UNAUTHORIZED USER
+                &gt; ACCESO: RESTRINGIDO
                 <br />
-                &gt; ACTION: SUBSCRIBE TO UNLOCK CATALOG_V4
+                &gt; ACCIÓN: REGÍSTRATE PARA VER EL CATÁLOGO
               </p>
 
               <form
@@ -888,7 +888,7 @@ const NeonCore: React.FC = () => {
                 <div>
                   <input
                     type="email"
-                    placeholder="TU@EMAIL.COM"
+                    placeholder="tu@email.com"
                     value={formEmail}
                     onChange={(e) => setFormEmail(e.target.value)}
                     aria-invalid={formStatus === 'error' ? 'true' : 'false'}
@@ -929,7 +929,7 @@ const NeonCore: React.FC = () => {
                       ? 'Procesando...'
                       : formStatus === 'success'
                         ? '✓ Confirmado'
-                        : 'Unirse y Descargar'}
+                        : 'Registrarme'}
                     {formStatus !== 'validating' && formStatus !== 'success' && (
                       <ChevronRight
                         size={16}
