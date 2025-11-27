@@ -12,12 +12,51 @@ const config: Config = {
         display: ['var(--font-oswald)', 'sans-serif'],
         body: ['var(--font-inter)', 'sans-serif'],
       },
+      // Sistema de tipografía consistente
+      fontSize: {
+        'display-xl': ['7rem', { lineHeight: '1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'display-lg': ['5rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'display-md': ['3.5rem', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '700' }],
+        'heading-lg': ['2.5rem', { lineHeight: '1.2', fontWeight: '600' }],
+        'heading-md': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
+        'heading-sm': ['1.5rem', { lineHeight: '1.4', fontWeight: '600' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-md': ['1rem', { lineHeight: '1.5', fontWeight: '400' }],
+        'body-sm': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
+        'caption': ['0.75rem', { lineHeight: '1.4', fontWeight: '400' }],
+      },
       colors: {
         cyan: {
           400: '#22d3ee',
           500: '#06b6d4',
           900: '#164e63',
         },
+        // Colores semánticos para texto
+        'text-primary': '#ffffff',
+        'text-secondary': '#d1d5db', // gray-300
+        'text-tertiary': '#9ca3af',  // gray-400
+        'text-muted': '#6b7280',     // gray-500
+      },
+      // Espaciado consistente (base-8)
+      spacing: {
+        'section-sm': '4rem',   // 64px
+        'section-md': '6rem',   // 96px
+        'section-lg': '8rem',   // 128px
+        'section-xl': '10rem',  // 160px
+      },
+      // Sistema de timing de animaciones
+      transitionDuration: {
+        'fast': '150ms',
+        'base': '250ms',
+        'moderate': '350ms',
+        'slow': '500ms',
+        'slower': '700ms',
+      },
+      // Easing functions naturales
+      transitionTimingFunction: {
+        'bounce-in': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        'smooth-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+        'elastic': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
       },
       animation: {
         marquee: 'marquee 20s linear infinite',

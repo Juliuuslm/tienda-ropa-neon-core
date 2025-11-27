@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import {
   Menu,
   X,
@@ -69,7 +70,7 @@ const NeonCore: React.FC = () => {
             <div className="h-0.5 w-0 group-hover:w-full bg-cyan-400 transition-all duration-300"></div>
           </div>
 
-          <div className="hidden md:flex space-x-8 text-sm font-bold tracking-widest uppercase text-gray-400">
+          <div className="hidden md:flex space-x-8 text-sm font-bold tracking-widest uppercase text-gray-300">
             {navItems.map((item) => (
               <a
                 key={item.label}
@@ -123,12 +124,16 @@ const NeonCore: React.FC = () => {
       )}
 
       {/* --- SECCIÓN 2: HERO (Cinematic Entry + Cyber Reactor Center) --- */}
-      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden border-b border-white/10">
+      <section className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/images/hero/hero.jpg"
             alt="Cyberpunk City"
-            className="w-full h-full object-cover opacity-40 grayscale animate-pulse duration-[10s]"
+            fill
+            priority
+            quality={75}
+            sizes="100vw"
+            className="object-cover opacity-40 grayscale"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         </div>
@@ -202,7 +207,7 @@ const NeonCore: React.FC = () => {
           </h1>
 
           <div className="text-reveal-wrapper mb-8">
-            <p className="max-w-xl mx-auto text-gray-400 font-body leading-relaxed reveal-child delay-300" style={{ animationDelay: '0.3s' }}>
+            <p className="max-w-xl mx-auto text-gray-300 font-body leading-relaxed reveal-child delay-300" style={{ animationDelay: '0.3s' }}>
               Hoodies, Playeras y Gorras diseñadas para la distopía digital.
               Tejidos de alta densidad, estética agresiva y comodidad para el
               caos urbano.
@@ -262,7 +267,7 @@ const NeonCore: React.FC = () => {
               Solo lo <br />
               <span className="text-stroke text-white">esencial.</span>
             </h2>
-            <p className="text-gray-400 mb-6 font-body text-lg border-l-2 border-cyan-500 pl-4">
+            <p className="text-gray-300 mb-6 font-body text-lg border-l-2 border-cyan-500 pl-4">
               En Neon Core rechazamos el exceso. No hacemos catálogos infinitos.
               Nos especializamos en lo único que necesitas para navegar la
               ciudad: una hoodie indestructible, una playera gráfica y una gorra
@@ -429,7 +434,7 @@ const NeonCore: React.FC = () => {
                       <h4 className="font-bold uppercase text-lg group-hover:text-cyan-400 transition-colors">
                         {feature.title}
                       </h4>
-                      <p className="text-gray-400 text-sm">{feature.desc}</p>
+                      <p className="text-gray-300 text-sm">{feature.desc}</p>
                     </div>
                   </li>
                 ))}
@@ -448,7 +453,7 @@ const NeonCore: React.FC = () => {
             </h2>
             <div className="h-1 w-20 bg-cyan-400 mt-4"></div>
           </div>
-          <p className="text-gray-400 font-mono text-sm mt-4 md:mt-0 animate-pulse">
+          <p className="text-gray-300 font-mono text-sm mt-4 md:mt-0 animate-pulse">
             // UPLOADED FROM THE WASTELANDS_
           </p>
         </div>
@@ -681,7 +686,7 @@ const NeonCore: React.FC = () => {
               <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
                 Shop
               </h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
+              <ul className="space-y-2 text-gray-300 text-sm">
                 {['Novedades', 'Hombres', 'Mujeres', 'Accesorios'].map(
                   (item) => (
                     <li
@@ -701,7 +706,7 @@ const NeonCore: React.FC = () => {
               <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
                 Legal
               </h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
+              <ul className="space-y-2 text-gray-300 text-sm">
                 {['Términos', 'Privacidad', 'Envíos'].map((item) => (
                   <li
                     key={item}
@@ -718,9 +723,9 @@ const NeonCore: React.FC = () => {
               Social
             </h4>
             <div className="flex space-x-4">
-              <Instagram className="text-gray-400 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
-              <Twitter className="text-gray-400 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
-              <Youtube className="text-gray-400 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+              <Instagram className="text-gray-300 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+              <Twitter className="text-gray-300 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+              <Youtube className="text-gray-300 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
             </div>
           </div>
         </div>
@@ -760,7 +765,7 @@ const NeonCore: React.FC = () => {
               >
                 Acceso Restringido
               </h3>
-              <p className="text-gray-400 mb-8 font-mono text-sm">
+              <p className="text-gray-300 mb-8 font-mono text-sm">
                 &gt; DETECTED: UNAUTHORIZED USER
                 <br />
                 &gt; ACTION: SUBSCRIBE TO UNLOCK CATALOG_V4
