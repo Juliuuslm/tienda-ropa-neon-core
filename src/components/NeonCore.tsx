@@ -126,8 +126,8 @@ const NeonCore: React.FC = () => {
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://placehold.co/1920x1080/050505/22d3ee?text=CYBER+CITY+BACKGROUND"
-            alt="Cyberpunk City Placeholder"
+            src="/images/hero/hero.jpg"
+            alt="Cyberpunk City"
             className="w-full h-full object-cover opacity-40 grayscale animate-pulse duration-[10s]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
@@ -290,8 +290,8 @@ const NeonCore: React.FC = () => {
           <div className="relative h-[500px] border border-white/20 p-2 group overflow-hidden">
             <div className="absolute inset-0 bg-cyan-500/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
             <img
-              src="https://placehold.co/800x1000/050505/22d3ee?text=HOODIE+MODEL"
-              alt="Modelo Hoodie Placeholder"
+              src="/images/manifiesto/about.jpg"
+              alt="Modelo Hoodie"
               className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-110 group-hover:grayscale-0 transition-all duration-700 ease-out"
             />
             <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_2s_linear_infinite] pointer-events-none z-30 shadow-[0_0_10px_#22d3ee]"></div>
@@ -326,17 +326,17 @@ const NeonCore: React.FC = () => {
             {
               name: 'Cyber Hoodie V2',
               price: '$85',
-              img: 'https://placehold.co/600x800/101010/22d3ee?text=CYBER+HOODIE+V2',
+              img: '/images/coleccion/coleccion (1).jpg',
             },
             {
               name: 'System_Failure Tee',
               price: '$45',
-              img: 'https://placehold.co/600x800/101010/a855f7?text=GRAPHIC+TEE',
+              img: '/images/coleccion/coleccion (2).jpg',
             },
             {
               name: 'Neural_Link Cap',
               price: '$35',
-              img: 'https://placehold.co/600x800/101010/22d3ee?text=5-PANEL+CAP',
+              img: '/images/coleccion/coleccion (3).jpg',
             },
           ].map((item: ProductItem, idx: number) => (
             <div
@@ -455,9 +455,9 @@ const NeonCore: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 h-auto md:h-[600px]">
           <div className="col-span-2 row-span-2 relative group overflow-hidden border border-white/10">
             <img
-              src="https://placehold.co/800x800/151515/22d3ee?text=HOODIE+STREET+SHOT"
+              src="/images/lookbook/lookbook (1).jpg"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-              alt="Look 1 Placeholder"
+              alt="Look 1"
             />
             <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
               <div className="border-l-2 border-cyan-400 pl-3">
@@ -474,9 +474,9 @@ const NeonCore: React.FC = () => {
 
           <div className="col-span-1 row-span-1 relative group overflow-hidden border border-white/10">
             <img
-              src="https://placehold.co/400x400/151515/a855f7?text=CAP+DETAIL"
+              src="/images/lookbook/lookbook (2).jpg"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-              alt="Look 2 Placeholder"
+              alt="Look 2"
             />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm">
               <Activity className="text-cyan-400" />
@@ -485,9 +485,9 @@ const NeonCore: React.FC = () => {
 
           <div className="col-span-1 row-span-1 relative group overflow-hidden border border-white/10">
             <img
-              src="https://placehold.co/400x400/151515/22d3ee?text=TEE+BACK+PRINT"
+              src="/images/lookbook/lookbook (3).jpg"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 hue-rotate-15"
-              alt="Look 3 Placeholder"
+              alt="Look 3"
             />
             <div className="absolute bottom-2 right-2 text-[10px] font-mono text-cyan-400 bg-black/80 px-2">
               IMG_8842.RAW
@@ -496,9 +496,9 @@ const NeonCore: React.FC = () => {
 
           <div className="col-span-2 row-span-1 relative group overflow-hidden border border-white/10">
             <img
-              src="https://placehold.co/800x400/151515/ffffff?text=FULL+OUTFIT"
+              src="/images/lookbook/lookbook (4).jpg"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-              alt="Look 4 Placeholder"
+              alt="Look 4"
             />
             <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="text-[10px] text-white font-mono leading-tight">
