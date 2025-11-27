@@ -55,7 +55,7 @@ const NeonCore: React.FC = () => {
     <div className="bg-black text-white min-h-screen font-body selection:bg-cyan-400 selection:text-black overflow-x-hidden">
       {/* --- SECCIÓN 1: NAVBAR --- */}
       <nav
-        className={`fixed w-full z-50 transition-all duration-500 border-b ${
+        className={`fixed w-full z-50 transition-all duration-slow border-b ${
           scrolled
             ? 'bg-black/80 backdrop-blur-lg border-cyan-500/20 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
             : 'bg-transparent border-transparent py-6'
@@ -64,10 +64,10 @@ const NeonCore: React.FC = () => {
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="text-2xl font-display font-bold tracking-tighter italic group cursor-pointer">
             NEON{' '}
-            <span className="text-cyan-400 group-hover:text-white transition-colors duration-300">
+            <span className="text-cyan-400 group-hover:text-white transition-colors duration-base">
               CORE
             </span>
-            <div className="h-0.5 w-0 group-hover:w-full bg-cyan-400 transition-all duration-300"></div>
+            <div className="h-0.5 w-0 group-hover:w-full bg-cyan-400 transition-all duration-base"></div>
           </div>
 
           <div className="hidden md:flex space-x-8 text-sm font-bold tracking-widest uppercase text-gray-300">
@@ -77,11 +77,11 @@ const NeonCore: React.FC = () => {
                 href={`#${item.id}`}
                 className="relative overflow-hidden group h-6 block"
               >
-                <span className="block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">
+                <span className="block group-hover:-translate-y-full transition-transform duration-base ease-in-out">
                   {item.label}
                 </span>
 
-                <span className="absolute top-full left-0 w-full text-cyan-400 group-hover:-translate-y-full transition-transform duration-300 ease-in-out">
+                <span className="absolute top-full left-0 w-full text-cyan-400 group-hover:-translate-y-full transition-transform duration-base ease-in-out">
                   {item.label}
                 </span>
               </a>
@@ -91,7 +91,7 @@ const NeonCore: React.FC = () => {
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleModal}
-              className="hidden md:flex items-center space-x-2 bg-white text-black px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+              className="hidden md:flex items-center space-x-2 bg-white text-black px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 hover:scale-105 active:scale-95 transition-all duration-base shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.6)]"
             >
               <span>Join Protocol</span>
               <ArrowRight size={14} />
@@ -233,7 +233,7 @@ const NeonCore: React.FC = () => {
               <span className="relative z-10 flex items-center gap-2">
                 Explorar Drop <ShoppingBag size={18} />
               </span>
-              <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-0"></div>
+              <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-base ease-out z-0"></div>
             </button>
             <button
               onClick={toggleModal}
@@ -246,7 +246,7 @@ const NeonCore: React.FC = () => {
       </section>
 
       {/* --- SECCIÓN 3: MARQUEE (Functional Animation) --- */}
-      <div className="bg-cyan-400 text-black overflow-hidden py-3 border-y-4 border-black relative z-20 rotate-1 hover:rotate-0 transition-transform duration-500">
+      <div className="bg-cyan-400 text-black overflow-hidden py-3 border-y-4 border-black relative z-20 rotate-1 hover:rotate-0 transition-transform duration-slow">
         <div className="flex w-[200%] animate-marquee">
           {[...Array(20)].map((_, i) => (
             <span
@@ -280,7 +280,7 @@ const NeonCore: React.FC = () => {
               que oculte tu identidad.
             </p>
             <div className="grid grid-cols-2 gap-8 mt-12">
-              <div className="group hover:-translate-y-2 transition-transform duration-300">
+              <div className="group hover:-translate-y-2 transition-transform duration-base">
                 <h3 className="text-4xl font-bold text-cyan-400 mb-2 group-hover:text-white transition-colors">
                   01
                 </h3>
@@ -288,7 +288,7 @@ const NeonCore: React.FC = () => {
                   Heavyweight Cotton
                 </p>
               </div>
-              <div className="group hover:-translate-y-2 transition-transform duration-300 delay-100">
+              <div className="group hover:-translate-y-2 transition-transform duration-base delay-100">
                 <h3 className="text-4xl font-bold text-purple-500 mb-2 group-hover:text-white transition-colors">
                   02
                 </h3>
@@ -299,13 +299,13 @@ const NeonCore: React.FC = () => {
             </div>
           </div>
           <div className="relative h-[500px] border border-white/20 p-2 group overflow-hidden">
-            <div className="absolute inset-0 bg-cyan-500/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+            <div className="absolute inset-0 bg-cyan-500/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-slow z-20"></div>
             <img
               src="/images/manifiesto/about.jpg"
               alt="Modelo Hoodie"
-              className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-110 group-hover:grayscale-0 transition-all duration-700 ease-out"
+              className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-slower ease-out"
             />
-            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_2s_linear_infinite] pointer-events-none z-30 shadow-[0_0_10px_#22d3ee]"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none z-30 shadow-[0_0_10px_#22d3ee]"></div>
           </div>
         </div>
       </SectionWrapper>
@@ -359,13 +359,13 @@ const NeonCore: React.FC = () => {
                 <img
                   src={item.img}
                   alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                  className="w-full h-full object-cover transition-transform duration-slower group-hover:scale-105 opacity-70 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
               </div>
 
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="bg-black/80 backdrop-blur-md p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
+                <div className="bg-black/80 backdrop-blur-md p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base">
                   <Lock className="w-8 h-8 text-cyan-400 mb-2 mx-auto" />
                   <h3 className="text-xl font-bold uppercase mb-1">
                     {item.name}
@@ -373,14 +373,14 @@ const NeonCore: React.FC = () => {
                   <p className="text-gray-300 text-sm mb-4">Acceso Restringido</p>
                   <button
                     onClick={toggleModal}
-                    className="bg-cyan-400 text-black px-4 py-2 text-sm font-bold uppercase tracking-wider hover:bg-white transition-colors w-full"
+                    className="bg-cyan-400 text-black px-4 py-2 text-sm font-bold uppercase tracking-wider hover:bg-white transition-colors duration-base w-full"
                   >
                     Desbloquear
                   </button>
                 </div>
               </div>
 
-              <div className="absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-300">
+              <div className="absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-base">
                 <div className="flex justify-between items-end border-t border-white/20 pt-4">
                   <h3 className="text-xl font-bold uppercase">{item.name}</h3>
                   <span className="text-cyan-400 font-mono">{item.price}</span>
@@ -498,7 +498,7 @@ const NeonCore: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-1 sm:col-span-1 md:col-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
+          <div className="col-span-1 sm:col-span-1 md:col-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-base">
             <Image
               src="/images/lookbook/lookbook (3).jpg"
               alt="Look 3"
@@ -511,7 +511,7 @@ const NeonCore: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-1 sm:col-span-2 md:col-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
+          <div className="col-span-1 sm:col-span-2 md:col-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-base">
             <Image
               src="/images/lookbook/lookbook (4).jpg"
               alt="Look 4"
@@ -519,7 +519,7 @@ const NeonCore: React.FC = () => {
               className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
             />
-            <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
               <div className="text-[10px] text-white font-mono leading-tight">
                 TARGET: UNKNOWN
                 <br />
@@ -571,13 +571,13 @@ const NeonCore: React.FC = () => {
               return (
               <div
                 key={i}
-                className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-300 relative group hover:-translate-y-2"
+                className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-base relative group hover:-translate-y-2"
               >
                 <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
                   <img
                     src={reviewImages[i] || '/images/reviews/reviwes (1).jpg'}
                     alt={review.user}
-                    className="w-12 h-12 rounded-sm border border-cyan-500/30 object-cover group-hover:border-cyan-400 transition-colors"
+                    className="w-12 h-12 rounded-sm border border-cyan-500/30 object-cover group-hover:border-cyan-400 transition-colors duration-base"
                   />
                   <div>
                     <h4 className="font-bold text-white uppercase tracking-wider">
@@ -608,8 +608,8 @@ const NeonCore: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="absolute top-0 right-0 w-0 h-0 border-t-2 border-r-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-300"></div>
-                <div className="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-300"></div>
+                <div className="absolute top-0 right-0 w-0 h-0 border-t-2 border-r-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-base"></div>
+                <div className="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-base"></div>
               </div>
             );
             })}
@@ -631,11 +631,11 @@ const NeonCore: React.FC = () => {
           ].map((img: string, i: number) => (
             <div
               key={i}
-              className="relative group aspect-square overflow-hidden cursor-pointer border border-transparent hover:border-cyan-400 transition-all duration-300"
+              className="relative group aspect-square overflow-hidden cursor-pointer border border-transparent hover:border-cyan-400 transition-all duration-base"
             >
               <img
                 src={img}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2"
+                className="w-full h-full object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
                 alt={`Social ${i + 1}`}
               />
               <div className="absolute inset-0 bg-cyan-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
@@ -670,13 +670,13 @@ const NeonCore: React.FC = () => {
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-slow group-hover:duration-base"></div>
               <input
                 type="email"
                 placeholder="INGRESA TU CORREO"
                 className="relative bg-black border border-white/20 text-white px-6 py-4 outline-none focus:border-cyan-400 w-full uppercase placeholder:text-gray-600 z-10"
               />
-              <button className="relative bg-cyan-400 text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:scale-105 transition-all whitespace-nowrap z-10 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+              <button className="relative bg-cyan-400 text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:scale-105 transition-all duration-base whitespace-nowrap z-10 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
                 Suscribirse
               </button>
             </div>
@@ -705,7 +705,7 @@ const NeonCore: React.FC = () => {
                   (item) => (
                     <li
                       key={item}
-                      className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-300 cursor-pointer block"
+                      className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
                     >
                       <span className="inline-block opacity-0 -ml-2 group-hover:opacity-100 transition-opacity">
                         ›
@@ -724,7 +724,7 @@ const NeonCore: React.FC = () => {
                 {['Términos', 'Privacidad', 'Envíos'].map((item) => (
                   <li
                     key={item}
-                    className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-300 cursor-pointer block"
+                    className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
                   >
                     {item}
                   </li>
@@ -801,17 +801,17 @@ const NeonCore: React.FC = () => {
                 <input
                   type="email"
                   placeholder="TU@EMAIL.COM"
-                  className="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 focus:border-cyan-400 outline-none uppercase text-center focus:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-300"
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 focus:border-cyan-400 outline-none uppercase text-center focus:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-base"
                 />
-                <button className="group w-full bg-cyan-400 text-black font-bold uppercase py-4 tracking-widest hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden">
+                <button className="group w-full bg-cyan-400 text-black font-bold uppercase py-4 tracking-widest hover:bg-white transition-all duration-base flex items-center justify-center gap-2 relative overflow-hidden">
                   <span className="relative z-10 flex items-center">
                     Unirse y Descargar{' '}
                     <ChevronRight
                       size={16}
-                      className="ml-1 group-hover:translate-x-1 transition-transform"
+                      className="ml-1 group-hover:translate-x-1 transition-transform duration-base"
                     />
                   </span>
-                  <div className="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+                  <div className="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-base ease-out z-0"></div>
                 </button>
               </form>
               <p className="text-[10px] text-gray-600 mt-4 uppercase tracking-widest">
