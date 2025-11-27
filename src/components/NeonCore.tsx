@@ -108,18 +108,24 @@ const NeonCore: React.FC = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-8 font-display text-4xl uppercase animate-in fade-in duration-300">
+        <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-6 md:space-y-8 font-display text-3xl sm:text-4xl uppercase animate-in fade-in duration-300 overflow-y-auto py-20">
           {navItems.map((item, i) => (
             <a
               key={item.label}
               href={`#${item.id}`}
               onClick={() => setIsMenuOpen(false)}
-              className="text-stroke hover:text-cyan-400 transition-all duration-300 transform hover:scale-110"
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-base tracking-wider focus-visible:outline-2 focus-visible:outline-cyan-400"
               style={{ animationDelay: `${i * 100}ms` }}
             >
               {item.label}
             </a>
           ))}
+          <button
+            onClick={toggleModal}
+            className="mt-6 bg-cyan-400 text-black px-6 py-3 text-base font-bold uppercase tracking-wide hover:bg-white transition-all duration-base min-h-[44px]"
+          >
+            Join Protocol
+          </button>
         </div>
       )}
 
@@ -457,12 +463,14 @@ const NeonCore: React.FC = () => {
             // UPLOADED FROM THE WASTELANDS_
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 h-auto md:h-[600px]">
-          <div className="col-span-2 row-span-2 relative group overflow-hidden border border-white/10">
-            <img
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-2 h-auto md:h-[600px]">
+          <div className="col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
+            <Image
               src="/images/lookbook/lookbook (1).jpg"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
               alt="Look 1"
+              fill
+              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
               <div className="border-l-2 border-cyan-400 pl-3">
@@ -477,33 +485,39 @@ const NeonCore: React.FC = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
           </div>
 
-          <div className="col-span-1 row-span-1 relative group overflow-hidden border border-white/10">
-            <img
+          <div className="col-span-1 sm:col-span-1 md:col-span-1 md:row-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
+            <Image
               src="/images/lookbook/lookbook (2).jpg"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
               alt="Look 2"
+              fill
+              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
             />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm">
               <Activity className="text-cyan-400" />
             </div>
           </div>
 
-          <div className="col-span-1 row-span-1 relative group overflow-hidden border border-white/10">
-            <img
+          <div className="col-span-1 sm:col-span-1 md:col-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
+            <Image
               src="/images/lookbook/lookbook (3).jpg"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 hue-rotate-15"
               alt="Look 3"
+              fill
+              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
             />
             <div className="absolute bottom-2 right-2 text-[10px] font-mono text-cyan-400 bg-black/80 px-2">
               IMG_8842.RAW
             </div>
           </div>
 
-          <div className="col-span-2 row-span-1 relative group overflow-hidden border border-white/10">
-            <img
+          <div className="col-span-1 sm:col-span-2 md:col-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
+            <Image
               src="/images/lookbook/lookbook (4).jpg"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
               alt="Look 4"
+              fill
+              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
             />
             <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="text-[10px] text-white font-mono leading-tight">
@@ -723,9 +737,15 @@ const NeonCore: React.FC = () => {
               Social
             </h4>
             <div className="flex space-x-4">
-              <Instagram className="text-gray-300 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
-              <Twitter className="text-gray-300 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
-              <Youtube className="text-gray-300 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+              <button className="p-3 text-gray-300 hover:text-white transition-colors duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm" aria-label="Seguir en Instagram">
+                <Instagram className="w-6 h-6" />
+              </button>
+              <button className="p-3 text-gray-300 hover:text-white transition-colors duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm" aria-label="Seguir en Twitter">
+                <Twitter className="w-6 h-6" />
+              </button>
+              <button className="p-3 text-gray-300 hover:text-white transition-colors duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm" aria-label="Seguir en YouTube">
+                <Youtube className="w-6 h-6" />
+              </button>
             </div>
           </div>
         </div>
@@ -736,13 +756,13 @@ const NeonCore: React.FC = () => {
 
       {/* --- MODAL POPUP (CRT & Scanline Animation) --- */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
             onClick={toggleModal}
           ></div>
           <div
-            className="bg-black border border-cyan-400 p-8 md:p-12 relative z-10 max-w-lg w-full shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-modal-entry overflow-hidden"
+            className="bg-black border border-cyan-400 p-6 sm:p-8 md:p-12 relative z-10 w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-w-lg shadow-[0_0_60px_rgba(34,211,238,0.4)] animate-modal-entry overflow-hidden"
             style={{ animation: 'modalEntry 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' }}
           >
             <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-20"></div>
@@ -750,9 +770,10 @@ const NeonCore: React.FC = () => {
 
             <button
               onClick={toggleModal}
-              className="absolute top-4 right-4 text-gray-500 hover:text-white hover:rotate-90 transition-transform duration-300"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white transition-all duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm"
+              aria-label="Cerrar modal"
             >
-              <X />
+              <X className="w-6 h-6" />
             </button>
 
             <div className="text-center relative z-30">
@@ -760,7 +781,7 @@ const NeonCore: React.FC = () => {
                 <Download size={32} />
               </div>
               <h3
-                className="text-3xl font-display font-bold uppercase mb-2 glitch-effect"
+                className="text-2xl sm:text-3xl md:text-4xl font-display font-bold uppercase mb-4 text-center glitch-effect"
                 data-text="Acceso Restringido"
               >
                 Acceso Restringido
