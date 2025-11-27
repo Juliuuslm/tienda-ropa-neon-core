@@ -1,0 +1,782 @@
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import {
+  Menu,
+  X,
+  ArrowRight,
+  Zap,
+  ShoppingBag,
+  Lock,
+  Download,
+  ChevronRight,
+  Instagram,
+  Twitter,
+  Youtube,
+  Activity,
+} from 'lucide-react'
+import SectionWrapper from '@/components/ui/SectionWrapper'
+import type { NavItem, ProductItem, Review, TechFeature } from '@/types'
+
+const NeonCore: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [scrolled, setScrolled] = useState<boolean>(false)
+
+  const navItems: NavItem[] = [
+    { label: 'Colección', id: 'colección' },
+    { label: 'Manifiesto', id: 'manifiesto' },
+    { label: 'Tech', id: 'tech' },
+    { label: 'Lookbook', id: 'lookbook' },
+    { label: 'Reseñas', id: 'reviews' },
+    { label: 'Comunidad', id: 'comunidad' },
+  ]
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const toggleModal = (): void => setIsModalOpen(!isModalOpen)
+
+  return (
+    <div className="bg-black text-white min-h-screen font-body selection:bg-cyan-400 selection:text-black overflow-x-hidden">
+      {/* --- SECCIÓN 1: NAVBAR --- */}
+      <nav
+        className={`fixed w-full z-50 transition-all duration-500 border-b ${
+          scrolled
+            ? 'bg-black/80 backdrop-blur-lg border-cyan-500/20 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
+            : 'bg-transparent border-transparent py-6'
+        }`}
+      >
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="text-2xl font-display font-bold tracking-tighter italic group cursor-pointer">
+            NEON{' '}
+            <span className="text-cyan-400 group-hover:text-white transition-colors duration-300">
+              CORE
+            </span>
+            <div className="h-0.5 w-0 group-hover:w-full bg-cyan-400 transition-all duration-300"></div>
+          </div>
+
+          <div className="hidden md:flex space-x-8 text-sm font-bold tracking-widest uppercase text-gray-400">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={`#${item.id}`}
+                className="relative overflow-hidden group h-6 block"
+              >
+                <span className="block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">
+                  {item.label}
+                </span>
+
+                <span className="absolute top-full left-0 w-full text-cyan-400 group-hover:-translate-y-full transition-transform duration-300 ease-in-out">
+                  {item.label}
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={toggleModal}
+              className="hidden md:flex items-center space-x-2 bg-white text-black px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+            >
+              <span>Join Protocol</span>
+              <ArrowRight size={14} />
+            </button>
+            <button
+              className="md:hidden text-white"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-8 font-display text-4xl uppercase animate-in fade-in duration-300">
+          {navItems.map((item, i) => (
+            <a
+              key={item.label}
+              href={`#${item.id}`}
+              onClick={() => setIsMenuOpen(false)}
+              className="text-stroke hover:text-cyan-400 transition-all duration-300 transform hover:scale-110"
+              style={{ animationDelay: `${i * 100}ms` }}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
+
+      {/* --- SECCIÓN 2: HERO (Cinematic Entry + Cyber Reactor Center) --- */}
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://placehold.co/1920x1080/050505/22d3ee?text=CYBER+CITY+BACKGROUND"
+            alt="Cyberpunk City Placeholder"
+            className="w-full h-full object-cover opacity-40 grayscale animate-pulse duration-[10s]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        </div>
+
+        {/* --- EFECTO: CYBER REACTOR CORE (CENTER) --- */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 opacity-60 hidden md:block">
+          <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow border-dashed"></div>
+
+          <div className="absolute inset-[15%] border border-purple-500/20 rounded-full animate-spin-reverse-slow border-dotted shadow-[0_0_30px_rgba(168,85,247,0.1)]"></div>
+
+          <div className="absolute inset-[30%] border-t-2 border-b-2 border-transparent border-t-cyan-400/30 border-b-cyan-400/30 rounded-full animate-spin duration-[3s]"></div>
+
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]"></div>
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]"
+            style={{ animationDelay: '1s' }}
+          ></div>
+
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent"></div>
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          {/* Señal de Datos */}
+          <div className="reveal-child mb-6 flex flex-col items-center justify-center gap-3">
+            <div className="flex items-end justify-center gap-[3px] h-8">
+              <div
+                className="w-1 bg-cyan-400 animate-[pulse_0.6s_ease-in-out_infinite] h-full"
+                style={{ animationDelay: '0ms' }}
+              ></div>
+              <div
+                className="w-1 bg-cyan-400 animate-[pulse_0.8s_ease-in-out_infinite] h-2/3"
+                style={{ animationDelay: '100ms' }}
+              ></div>
+              <div
+                className="w-1 bg-cyan-400 animate-[pulse_0.4s_ease-in-out_infinite] h-1/2"
+                style={{ animationDelay: '200ms' }}
+              ></div>
+              <div
+                className="w-1 bg-purple-500 animate-[pulse_0.7s_ease-in-out_infinite] h-3/4"
+                style={{ animationDelay: '150ms' }}
+              ></div>
+              <div
+                className="w-1 bg-cyan-400 animate-[pulse_0.5s_ease-in-out_infinite] h-1/3"
+                style={{ animationDelay: '300ms' }}
+              ></div>
+              <div
+                className="w-1 bg-cyan-400 animate-[pulse_0.9s_ease-in-out_infinite] h-full"
+                style={{ animationDelay: '50ms' }}
+              ></div>
+            </div>
+            <div className="text-[10px] text-cyan-400 font-mono tracking-[0.4em] uppercase opacity-90 animate-pulse border-t border-cyan-500/30 pt-2 px-4">
+              Signal Detected
+            </div>
+          </div>
+
+          <h1 className="font-display text-6xl md:text-9xl font-bold uppercase leading-none tracking-tighter mb-6 flex flex-col items-center relative">
+            <div className="hidden md:block absolute -top-4 -left-8 w-8 h-8 border-t-2 border-l-2 border-cyan-500/50"></div>
+            <div className="hidden md:block absolute -top-4 -right-8 w-8 h-8 border-t-2 border-r-2 border-cyan-500/50"></div>
+            <div className="hidden md:block absolute -bottom-4 -left-8 w-8 h-8 border-b-2 border-l-2 border-cyan-500/50"></div>
+            <div className="hidden md:block absolute -bottom-4 -right-8 w-8 h-8 border-b-2 border-r-2 border-cyan-500/50"></div>
+
+            <div className="text-reveal-wrapper">
+              <span className="block reveal-child delay-100">Future</span>
+            </div>
+            <div className="text-reveal-wrapper">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 reveal-child delay-200">
+                Wear
+              </span>
+            </div>
+          </h1>
+
+          <div className="text-reveal-wrapper mb-8">
+            <p className="max-w-xl mx-auto text-gray-400 font-body leading-relaxed reveal-child delay-300">
+              Hoodies, Playeras y Gorras diseñadas para la distopía digital.
+              Tejidos de alta densidad, estética agresiva y comodidad para el
+              caos urbano.
+            </p>
+          </div>
+
+          <div
+            className="flex flex-col md:flex-row gap-4 justify-center reveal-child delay-300 opacity-0"
+            style={{ animationFillMode: 'forwards' }}
+          >
+            <button
+              onClick={() =>
+                document.getElementById('colección')?.scrollIntoView()
+              }
+              className="group bg-cyan-400 text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Explorar Drop <ShoppingBag size={18} />
+              </span>
+              <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-0"></div>
+            </button>
+            <button
+              onClick={toggleModal}
+              className="border border-white/30 text-white px-8 py-4 font-bold uppercase tracking-widest hover:border-cyan-400 hover:text-cyan-400 hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all duration-300"
+            >
+              Acceso VIP
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECCIÓN 3: MARQUEE (Functional Animation) --- */}
+      <div className="bg-cyan-400 text-black overflow-hidden py-3 border-y-4 border-black relative z-20 rotate-1 hover:rotate-0 transition-transform duration-500">
+        <div className="flex w-[200%] animate-marquee">
+          {[...Array(20)].map((_, i) => (
+            <span
+              key={i}
+              className="text-2xl font-display font-bold mx-8 italic uppercase shrink-0"
+            >
+              /// HOODIES. PLAYERAS. GORRAS. /// NEON CORE ///
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* --- SECCIÓN 4: MANIFIESTO (Glitch Reveal) --- */}
+      <SectionWrapper
+        id="manifiesto"
+        className="py-24 border-b border-white/10"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2
+              className="text-4xl md:text-6xl font-display font-bold uppercase mb-6 leading-none glitch-effect"
+              data-text="Solo lo esencial."
+            >
+              Solo lo <br />
+              <span className="text-stroke text-white">esencial.</span>
+            </h2>
+            <p className="text-gray-400 mb-6 font-body text-lg border-l-2 border-cyan-500 pl-4">
+              En Neon Core rechazamos el exceso. No hacemos catálogos infinitos.
+              Nos especializamos en lo único que necesitas para navegar la
+              ciudad: una hoodie indestructible, una playera gráfica y una gorra
+              que oculte tu identidad.
+            </p>
+            <div className="grid grid-cols-2 gap-8 mt-12">
+              <div className="group hover:-translate-y-2 transition-transform duration-300">
+                <h3 className="text-4xl font-bold text-cyan-400 mb-2 group-hover:text-white transition-colors">
+                  01
+                </h3>
+                <p className="uppercase text-sm tracking-widest font-bold">
+                  Heavyweight Cotton
+                </p>
+              </div>
+              <div className="group hover:-translate-y-2 transition-transform duration-300 delay-100">
+                <h3 className="text-4xl font-bold text-purple-500 mb-2 group-hover:text-white transition-colors">
+                  02
+                </h3>
+                <p className="uppercase text-sm tracking-widest font-bold">
+                  Anti-Scan Visors
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="relative h-[500px] border border-white/20 p-2 group overflow-hidden">
+            <div className="absolute inset-0 bg-cyan-500/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+            <img
+              src="https://placehold.co/800x1000/050505/22d3ee?text=HOODIE+MODEL"
+              alt="Modelo Hoodie Placeholder"
+              className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-110 group-hover:grayscale-0 transition-all duration-700 ease-out"
+            />
+            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_2s_linear_infinite] pointer-events-none z-30 shadow-[0_0_10px_#22d3ee]"></div>
+          </div>
+        </div>
+      </SectionWrapper>
+
+      {/* --- SECCIÓN 5: LA COLECCIÓN (Staggered Cards) --- */}
+      <SectionWrapper
+        id="colección"
+        className="py-24 bg-zinc-950"
+      >
+        <div className="flex justify-between items-end mb-16">
+          <div>
+            <span className="text-cyan-400 font-bold tracking-widest uppercase text-sm animate-pulse">
+              Season 04 // Live Now
+            </span>
+            <h2 className="text-5xl font-display font-bold uppercase mt-2">
+              Core_Essentials
+            </h2>
+          </div>
+          <button
+            onClick={toggleModal}
+            className="hidden md:block text-sm border-b border-cyan-400 pb-1 uppercase hover:text-cyan-400 transition-colors"
+          >
+            Ver todo el catálogo
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              name: 'Cyber Hoodie V2',
+              price: '$85',
+              img: 'https://placehold.co/600x800/101010/22d3ee?text=CYBER+HOODIE+V2',
+            },
+            {
+              name: 'System_Failure Tee',
+              price: '$45',
+              img: 'https://placehold.co/600x800/101010/a855f7?text=GRAPHIC+TEE',
+            },
+            {
+              name: 'Neural_Link Cap',
+              price: '$35',
+              img: 'https://placehold.co/600x800/101010/22d3ee?text=5-PANEL+CAP',
+            },
+          ].map((item: ProductItem, idx: number) => (
+            <div
+              key={idx}
+              className="group relative overflow-hidden border border-white/10 bg-black hover:border-cyan-400/50 transition-colors duration-300"
+              style={{ transitionDelay: `${idx * 150}ms` }}
+            >
+              <div className="aspect-[3/4] overflow-hidden relative">
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+              </div>
+
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="bg-black/80 backdrop-blur-md p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <Lock className="w-8 h-8 text-cyan-400 mb-2 mx-auto" />
+                  <h3 className="text-xl font-bold uppercase mb-1">
+                    {item.name}
+                  </h3>
+                  <p className="text-gray-300 text-sm mb-4">Acceso Restringido</p>
+                  <button
+                    onClick={toggleModal}
+                    className="bg-cyan-400 text-black px-4 py-2 text-sm font-bold uppercase tracking-wider hover:bg-white transition-colors w-full"
+                  >
+                    Desbloquear
+                  </button>
+                </div>
+              </div>
+
+              <div className="absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-300">
+                <div className="flex justify-between items-end border-t border-white/20 pt-4">
+                  <h3 className="text-xl font-bold uppercase">{item.name}</h3>
+                  <span className="text-cyan-400 font-mono">{item.price}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionWrapper>
+
+      {/* --- SECCIÓN 6: TECH SPECS (Floating Elements) --- */}
+      <section
+        id="tech"
+        className="py-24 border-y border-white/10 overflow-hidden relative bg-neutral-900"
+      >
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-cyan-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-purple-500/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+
+              <img
+                src="https://placehold.co/800x800/000000/22d3ee?text=HEAVY+COTTON+TEXTURE"
+                alt="Tech Fabric Placeholder"
+                className="relative z-10 w-full rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-float"
+              />
+            </div>
+
+            <SectionWrapper className="order-1 md:order-2">
+              <h2 className="text-5xl font-display font-bold uppercase mb-8">
+                Materiales <span className="text-stroke-cyan">NEON-READY</span>
+              </h2>
+              <ul className="space-y-6">
+                {[
+                  {
+                    title: 'Algodón Bio-Híbrido',
+                    desc: '450 GSM. Pesado, estructurado y suave al tacto.',
+                  },
+                  {
+                    title: 'Estampado Reactivo',
+                    desc: 'Gráficos de alta densidad que no se agrietan con el tiempo.',
+                  },
+                  {
+                    title: 'Ajuste Oversized',
+                    desc: 'Corte diseñado para movimiento y capas tácticas.',
+                  },
+                ].map((feature: TechFeature, i: number) => (
+                  <li
+                    key={i}
+                    className="flex items-start space-x-4 group p-4 border border-transparent hover:border-white/10 hover:bg-white/5 transition-all duration-300 rounded-lg"
+                  >
+                    <div className="mt-1 w-8 h-8 rounded-full border border-cyan-400 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black transition-all duration-300 shadow-[0_0_10px_rgba(34,211,238,0.3)]">
+                      <Zap size={16} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold uppercase text-lg group-hover:text-cyan-400 transition-colors">
+                        {feature.title}
+                      </h4>
+                      <p className="text-gray-400 text-sm">{feature.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </SectionWrapper>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECCIÓN NUEVA 7: FIELD REPORTS (Lookbook) --- */}
+      <SectionWrapper id="lookbook" className="py-24 bg-black border-b border-white/10">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase">
+              Field <span className="text-cyan-400">Reports</span>
+            </h2>
+            <div className="h-1 w-20 bg-cyan-400 mt-4"></div>
+          </div>
+          <p className="text-gray-400 font-mono text-sm mt-4 md:mt-0 animate-pulse">
+            // UPLOADED FROM THE WASTELANDS_
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 h-auto md:h-[600px]">
+          <div className="col-span-2 row-span-2 relative group overflow-hidden border border-white/10">
+            <img
+              src="https://placehold.co/800x800/151515/22d3ee?text=HOODIE+STREET+SHOT"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              alt="Look 1 Placeholder"
+            />
+            <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <div className="border-l-2 border-cyan-400 pl-3">
+                <span className="bg-black text-cyan-400 text-xs px-2 py-1 font-mono mb-1 inline-block">
+                  LOC: SECTOR_7
+                </span>
+                <p className="text-white font-bold uppercase text-lg">
+                  Night Ops Hoodie
+                </p>
+              </div>
+            </div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
+          </div>
+
+          <div className="col-span-1 row-span-1 relative group overflow-hidden border border-white/10">
+            <img
+              src="https://placehold.co/400x400/151515/a855f7?text=CAP+DETAIL"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              alt="Look 2 Placeholder"
+            />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm">
+              <Activity className="text-cyan-400" />
+            </div>
+          </div>
+
+          <div className="col-span-1 row-span-1 relative group overflow-hidden border border-white/10">
+            <img
+              src="https://placehold.co/400x400/151515/22d3ee?text=TEE+BACK+PRINT"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 hue-rotate-15"
+              alt="Look 3 Placeholder"
+            />
+            <div className="absolute bottom-2 right-2 text-[10px] font-mono text-cyan-400 bg-black/80 px-2">
+              IMG_8842.RAW
+            </div>
+          </div>
+
+          <div className="col-span-2 row-span-1 relative group overflow-hidden border border-white/10">
+            <img
+              src="https://placehold.co/800x400/151515/ffffff?text=FULL+OUTFIT"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+              alt="Look 4 Placeholder"
+            />
+            <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="text-[10px] text-white font-mono leading-tight">
+                TARGET: UNKNOWN
+                <br />
+                DIST: 40M
+              </div>
+            </div>
+          </div>
+        </div>
+      </SectionWrapper>
+
+      {/* --- SECCIÓN NUEVA 8: ENCRYPTED TRANSMISSIONS (Testimonials) --- */}
+      <SectionWrapper
+        id="reviews"
+        className="py-24 bg-zinc-950 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(34,211,238,0.15) 1px, transparent 0)', backgroundSize: '20px 20px' }}></div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <h2 className="text-center text-4xl font-display font-bold uppercase mb-16">
+            Encrypted <span className="text-stroke text-white">Transmissions</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                user: 'KAI_ZEN',
+                role: 'Netrunner',
+                text: 'La Hoodie V2 sobrevivió a una rave de 12 horas en Neo-Seoul. El algodón pesa pero respira.',
+                rating: 5,
+              },
+              {
+                user: 'V0ID_WALKER',
+                role: 'Urban Explorer',
+                text: 'La gorra 5-Panel tiene el ajuste perfecto. Ideal para evitar cámaras de seguridad.',
+                rating: 5,
+              },
+              {
+                user: 'NEON_GHOST',
+                role: 'Digital Artist',
+                text: 'El print de la playera "Failure" no se ha desgastado después de 20 lavadas. Calidad sólida.',
+                rating: 4,
+              },
+            ].map((review: Review, i: number) => (
+              <div
+                key={i}
+                className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-300 relative group hover:-translate-y-2"
+              >
+                <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
+                  <div className="w-12 h-12 bg-zinc-900 rounded-sm flex items-center justify-center text-cyan-400 font-bold border border-cyan-500/30 group-hover:bg-cyan-900/20 transition-colors">
+                    {review.user[0]}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white uppercase tracking-wider">
+                      {review.user}
+                    </h4>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-[10px] text-gray-500 font-mono uppercase">
+                        {review.role}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-300 mb-6 font-mono text-sm leading-relaxed relative">
+                  <span className="text-cyan-500/30 absolute -left-2 -top-2 text-2xl">
+                    "
+                  </span>
+                  {review.text}
+                </p>
+                <div className="flex justify-between items-center">
+                  <div className="flex text-cyan-400 gap-1">
+                    {[...Array(review.rating)].map((_, r) => (
+                      <Zap key={r} size={14} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="text-[10px] text-gray-600 font-mono">
+                    ID: #{Math.floor(Math.random() * 9000) + 1000}
+                  </span>
+                </div>
+
+                <div className="absolute top-0 right-0 w-0 h-0 border-t-2 border-r-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-300"></div>
+                <div className="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-300"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SectionWrapper>
+
+      {/* --- SECCIÓN 9: SOCIAL (Grid Stagger) --- */}
+      <SectionWrapper id="comunidad" className="py-20 text-center">
+        <h2 className="text-4xl font-display font-bold uppercase mb-12">
+          Global <span className="text-stroke text-white">Syndicate</span>
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+1',
+            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+2',
+            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+3',
+            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+4',
+          ].map((img: string, i: number) => (
+            <div
+              key={i}
+              className="relative group aspect-square overflow-hidden cursor-pointer border border-transparent hover:border-cyan-400 transition-all duration-300"
+            >
+              <img
+                src={img}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2"
+                alt="Social Placeholder"
+              />
+              <div className="absolute inset-0 bg-cyan-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                <Instagram className="text-white w-10 h-10 animate-bounce" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionWrapper>
+
+      {/* --- SECCIÓN 10: NEWSLETTER (Moving Grid Background) --- */}
+      <section className="py-32 bg-black relative border-t border-cyan-900/30 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-20 animate-grid"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(34,211,238,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.3) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        ></div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
+
+        <div className="container mx-auto px-4 text-center max-w-3xl relative z-10">
+          <SectionWrapper>
+            <h2 className="text-6xl md:text-8xl font-display font-bold uppercase mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-800 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+              Join The <br /> Resistance
+            </h2>
+            <p className="text-xl text-cyan-400 mb-10 font-mono">
+              // Suscríbete para recibir drops exclusivos y coordenadas
+              secretas.
+            </p>
+
+            <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <input
+                type="email"
+                placeholder="INGRESA TU CORREO"
+                className="relative bg-black border border-white/20 text-white px-6 py-4 outline-none focus:border-cyan-400 w-full uppercase placeholder:text-gray-600 z-10"
+              />
+              <button className="relative bg-cyan-400 text-black px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:scale-105 transition-all whitespace-nowrap z-10 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                Suscribirse
+              </button>
+            </div>
+          </SectionWrapper>
+        </div>
+      </section>
+
+      {/* --- FOOTER --- */}
+      <footer className="bg-black border-t border-white/10 pt-16 pb-8">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div>
+            <h3 className="font-display text-2xl font-bold italic mb-4">
+              NEON CORE
+            </h3>
+            <p className="text-gray-500 text-sm">
+              Ropa técnica para la era post-digital. Diseñado en 2088.
+            </p>
+          </div>
+          <div className="col-span-1 md:col-span-2 flex justify-around">
+            <div>
+              <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+                Shop
+              </h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                {['Novedades', 'Hombres', 'Mujeres', 'Accesorios'].map(
+                  (item) => (
+                    <li
+                      key={item}
+                      className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-300 cursor-pointer block"
+                    >
+                      <span className="inline-block opacity-0 -ml-2 group-hover:opacity-100 transition-opacity">
+                        ›
+                      </span>{' '}
+                      {item}
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+                Legal
+              </h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                {['Términos', 'Privacidad', 'Envíos'].map((item) => (
+                  <li
+                    key={item}
+                    className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-300 cursor-pointer block"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Social
+            </h4>
+            <div className="flex space-x-4">
+              <Instagram className="text-gray-400 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+              <Twitter className="text-gray-400 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+              <Youtube className="text-gray-400 hover:text-white cursor-pointer hover:animate-bounce transition-colors duration-300" />
+            </div>
+          </div>
+        </div>
+        <div className="text-center text-gray-700 text-xs font-mono uppercase border-t border-gray-900 pt-8">
+          © 2024 Neon Core Systems. All rights reserved.
+        </div>
+      </footer>
+
+      {/* --- MODAL POPUP (CRT & Scanline Animation) --- */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+          <div
+            className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
+            onClick={toggleModal}
+          ></div>
+          <div
+            className="bg-black border border-cyan-400 p-8 md:p-12 relative z-10 max-w-lg w-full shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-modal-entry overflow-hidden"
+            style={{ animation: 'modalEntry 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' }}
+          >
+            <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-20"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/30 animate-[scanline_3s_linear_infinite] pointer-events-none z-20"></div>
+
+            <button
+              onClick={toggleModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-white hover:rotate-90 transition-transform duration-300"
+            >
+              <X />
+            </button>
+
+            <div className="text-center relative z-30">
+              <div className="inline-block p-4 rounded-full bg-cyan-900/20 text-cyan-400 mb-6 border border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                <Download size={32} />
+              </div>
+              <h3
+                className="text-3xl font-display font-bold uppercase mb-2 glitch-effect"
+                data-text="Acceso Restringido"
+              >
+                Acceso Restringido
+              </h3>
+              <p className="text-gray-400 mb-8 font-mono text-sm">
+                &gt; DETECTED: UNAUTHORIZED USER
+                <br />
+                &gt; ACTION: SUBSCRIBE TO UNLOCK CATALOG_V4
+              </p>
+
+              <form
+                className="space-y-4"
+                onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                  e.preventDefault()
+                }
+              >
+                <input
+                  type="email"
+                  placeholder="TU@EMAIL.COM"
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 focus:border-cyan-400 outline-none uppercase text-center focus:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-300"
+                />
+                <button className="group w-full bg-cyan-400 text-black font-bold uppercase py-4 tracking-widest hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden">
+                  <span className="relative z-10 flex items-center">
+                    Unirse y Descargar{' '}
+                    <ChevronRight
+                      size={16}
+                      className="ml-1 group-hover:translate-x-1 transition-transform"
+                    />
+                  </span>
+                  <div className="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+                </button>
+              </form>
+              <p className="text-[10px] text-gray-600 mt-4 uppercase tracking-widest">
+                Encrypted Connection // Secure Protocol
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default NeonCore
