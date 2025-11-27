@@ -393,8 +393,8 @@ const NeonCore: React.FC = () => {
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-purple-500/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
 
               <img
-                src="https://placehold.co/800x800/000000/22d3ee?text=HEAVY+COTTON+TEXTURE"
-                alt="Tech Fabric Placeholder"
+                src="/images/tech/tech.jpg"
+                alt="Tech Fabric"
                 className="relative z-10 w-full rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-float"
               />
             </div>
@@ -595,10 +595,10 @@ const NeonCore: React.FC = () => {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+1',
-            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+2',
-            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+3',
-            'https://placehold.co/400x400/101010/22d3ee?text=SOCIAL+4',
+            '/images/social/social (1).jpg',
+            '/images/social/social (2).jpg',
+            '/images/social/social (3).jpg',
+            '/images/social/social (4).jpg',
           ].map((img: string, i: number) => (
             <div
               key={i}
@@ -607,7 +607,7 @@ const NeonCore: React.FC = () => {
               <img
                 src={img}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2"
-                alt="Social Placeholder"
+                alt={`Social ${i + 1}`}
               />
               <div className="absolute inset-0 bg-cyan-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                 <Instagram className="text-white w-10 h-10 animate-bounce" />
