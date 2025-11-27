@@ -542,15 +542,24 @@ const NeonCore: React.FC = () => {
                 text: 'El print de la playera "Failure" no se ha desgastado después de 20 lavadas. Calidad sólida.',
                 rating: 4,
               },
-            ].map((review: Review, i: number) => (
+            ].map((review: Review, i: number) => {
+              const reviewImages = [
+                '/images/reviews/reviwes (1).jpg',
+                '/images/reviews/reviwes (2).jpg',
+                '/images/reviews/reviwes (3).jpg',
+                '/images/reviews/reviwes (4).jpg',
+              ];
+              return (
               <div
                 key={i}
                 className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-300 relative group hover:-translate-y-2"
               >
                 <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
-                  <div className="w-12 h-12 bg-zinc-900 rounded-sm flex items-center justify-center text-cyan-400 font-bold border border-cyan-500/30 group-hover:bg-cyan-900/20 transition-colors">
-                    {review.user[0]}
-                  </div>
+                  <img
+                    src={reviewImages[i] || '/images/reviews/reviwes (1).jpg'}
+                    alt={review.user}
+                    className="w-12 h-12 rounded-sm border border-cyan-500/30 object-cover group-hover:border-cyan-400 transition-colors"
+                  />
                   <div>
                     <h4 className="font-bold text-white uppercase tracking-wider">
                       {review.user}
@@ -583,7 +592,8 @@ const NeonCore: React.FC = () => {
                 <div className="absolute top-0 right-0 w-0 h-0 border-t-2 border-r-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-300"></div>
                 <div className="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-300"></div>
               </div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </SectionWrapper>
