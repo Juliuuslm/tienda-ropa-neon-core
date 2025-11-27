@@ -37,10 +37,10 @@ export default function SectionWrapper({
     <section
       id={id}
       ref={elementRef}
-      className={`transition-all duration-1000 ease-out transform ${
+      className={`transition-all duration-slower ease-out transform ${
         isVisible
-          ? 'opacity-100 translate-y-0 blur-0'
-          : 'opacity-0 translate-y-20 blur-sm'
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-20'
       } ${className}`}
     >
       <div className="container mx-auto px-4">{children}</div>

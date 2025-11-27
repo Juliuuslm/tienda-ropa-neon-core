@@ -23,6 +23,8 @@ const NeonCore: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
+  const [scrollY, setScrollY] = useState<number>(0)
+  const [activeSection, setActiveSection] = useState<string>('')
   const [reviewIds, setReviewIds] = useState<number[]>([])
 
   const navItems: NavItem[] = [
@@ -35,7 +37,31 @@ const NeonCore: React.FC = () => {
   ]
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+      setScrollY(window.scrollY)
+
+      // Detect active section
+      const sections = navItems.map((item) => {
+        const element = document.getElementById(item.id)
+        return element
+          ? {
+              id: item.id,
+              top: element.offsetTop,
+              height: element.offsetHeight,
+            }
+          : null
+      }).filter(Boolean)
+
+      const currentScroll = window.scrollY + 150
+      const current = sections.find(
+        (section) =>
+          section &&
+          currentScroll >= section.top &&
+          currentScroll < section.top + section.height
+      )
+      setActiveSection(current?.id || '')
+    }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -75,13 +101,23 @@ const NeonCore: React.FC = () => {
               <a
                 key={item.label}
                 href={`#${item.id}`}
-                className="relative overflow-hidden group h-6 block"
+                className={`relative overflow-hidden group h-6 block transition-colors duration-base ${
+                  activeSection === item.id ? 'text-cyan-400' : ''
+                }`}
               >
-                <span className="block group-hover:-translate-y-full transition-transform duration-base ease-in-out">
+                <span
+                  className={`block group-hover:-translate-y-full transition-transform duration-base ease-in-out ${
+                    activeSection === item.id ? '-translate-y-full' : ''
+                  }`}
+                >
                   {item.label}
                 </span>
 
-                <span className="absolute top-full left-0 w-full text-cyan-400 group-hover:-translate-y-full transition-transform duration-base ease-in-out">
+                <span
+                  className={`absolute top-full left-0 w-full text-cyan-400 group-hover:-translate-y-full transition-transform duration-base ease-in-out ${
+                    activeSection === item.id ? '-translate-y-full' : ''
+                  }`}
+                >
                   {item.label}
                 </span>
               </a>
@@ -131,7 +167,7 @@ const NeonCore: React.FC = () => {
 
       {/* --- SECCIÓN 2: HERO (Cinematic Entry + Cyber Reactor Center) --- */}
       <section className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
           <Image
             src="/images/hero/hero.jpg"
             alt="Cyberpunk City"
@@ -246,8 +282,8 @@ const NeonCore: React.FC = () => {
       </section>
 
       {/* --- SECCIÓN 3: MARQUEE (Functional Animation) --- */}
-      <div className="bg-cyan-400 text-black overflow-hidden py-3 border-y-4 border-black relative z-20 rotate-1 hover:rotate-0 transition-transform duration-slow">
-        <div className="flex w-[200%] animate-marquee">
+      <div className="bg-cyan-400 text-black overflow-hidden py-3 border-y-4 border-black relative z-20 rotate-1 hover:rotate-0 transition-transform duration-slow group">
+        <div className="flex w-[200%] animate-marquee group-hover:[animation-play-state:paused]">
           {[...Array(20)].map((_, i) => (
             <span
               key={i}

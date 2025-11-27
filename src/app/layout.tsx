@@ -2,6 +2,7 @@ import { Oswald, Inter } from 'next/font/google'
 import './globals.css'
 import { Metadata } from 'next'
 import SmoothScroll from '@/components/SmoothScroll'
+import ScrollProgress from '@/components/ui/ScrollProgress'
 
 const oswald = Oswald({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${oswald.variable} ${inter.variable}`}>
       <body className="bg-black text-white">
+        <ScrollProgress />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
