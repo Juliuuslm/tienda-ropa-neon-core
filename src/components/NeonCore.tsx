@@ -191,18 +191,18 @@ const NeonCore: React.FC = () => {
             <div className="hidden md:block absolute -bottom-4 -left-8 w-8 h-8 border-b-2 border-l-2 border-cyan-500/50"></div>
             <div className="hidden md:block absolute -bottom-4 -right-8 w-8 h-8 border-b-2 border-r-2 border-cyan-500/50"></div>
 
-            <div className="text-reveal-wrapper">
-              <span className="block reveal-child delay-100">Future</span>
+            <div className="text-reveal-wrapper overflow-hidden">
+              <span className="block reveal-child delay-100" style={{ animationDelay: '0.1s' }}>Future</span>
             </div>
-            <div className="text-reveal-wrapper">
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 reveal-child delay-200">
+            <div className="text-reveal-wrapper overflow-hidden">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 reveal-child delay-200" style={{ animationDelay: '0.2s' }}>
                 Wear
               </span>
             </div>
           </h1>
 
           <div className="text-reveal-wrapper mb-8">
-            <p className="max-w-xl mx-auto text-gray-400 font-body leading-relaxed reveal-child delay-300">
+            <p className="max-w-xl mx-auto text-gray-400 font-body leading-relaxed reveal-child delay-300" style={{ animationDelay: '0.3s' }}>
               Hoodies, Playeras y Gorras diseñadas para la distopía digital.
               Tejidos de alta densidad, estética agresiva y comodidad para el
               caos urbano.
@@ -210,8 +210,8 @@ const NeonCore: React.FC = () => {
           </div>
 
           <div
-            className="flex flex-col md:flex-row gap-4 justify-center reveal-child delay-300 opacity-0"
-            style={{ animationFillMode: 'forwards' }}
+            className="flex flex-col md:flex-row gap-4 justify-center reveal-child delay-300"
+            style={{ animationDelay: '0.4s' }}
           >
             <button
               onClick={() =>
