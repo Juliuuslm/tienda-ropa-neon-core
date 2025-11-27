@@ -27,6 +27,9 @@ const NeonCore: React.FC = () => {
   const [scrollY, setScrollY] = useState<number>(0)
   const [activeSection, setActiveSection] = useState<string>('')
   const [reviewIds, setReviewIds] = useState<number[]>([])
+  const [formEmail, setFormEmail] = useState<string>('')
+  const [formStatus, setFormStatus] = useState<'idle' | 'validating' | 'success' | 'error'>('idle')
+  const [formError, setFormError] = useState<string>('')
 
   const navItems: NavItem[] = [
     { label: 'Colección', id: 'colección' },
@@ -78,6 +81,39 @@ const NeonCore: React.FC = () => {
 
   const modalRef = useFocusTrap(isModalOpen)
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setFormError('')
+
+    if (!formEmail.trim()) {
+      setFormStatus('error')
+      setFormError('Por favor ingresa un correo electrónico')
+      return
+    }
+
+    if (!validateEmail(formEmail)) {
+      setFormStatus('error')
+      setFormError('Por favor ingresa un correo válido')
+      return
+    }
+
+    setFormStatus('validating')
+    // Simulate API call
+    setTimeout(() => {
+      setFormStatus('success')
+      setFormError('')
+      setTimeout(() => {
+        setFormEmail('')
+        setFormStatus('idle')
+      }, 2000)
+    }, 500)
+  }
 
   return (
     <main className="bg-black text-white min-h-screen font-body selection:bg-cyan-400 selection:text-black overflow-x-hidden">
@@ -847,22 +883,59 @@ const NeonCore: React.FC = () => {
 
               <form
                 className="space-y-4"
-                onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                  e.preventDefault()
-                }
+                onSubmit={handleFormSubmit}
               >
-                <input
-                  type="email"
-                  placeholder="TU@EMAIL.COM"
-                  className="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 focus:border-cyan-400 outline-none uppercase text-center focus:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-base"
-                />
-                <button className="group w-full bg-cyan-400 text-black font-bold uppercase py-4 tracking-widest hover:bg-white transition-all duration-base flex items-center justify-center gap-2 relative overflow-hidden">
+                <div>
+                  <input
+                    type="email"
+                    placeholder="TU@EMAIL.COM"
+                    value={formEmail}
+                    onChange={(e) => setFormEmail(e.target.value)}
+                    aria-invalid={formStatus === 'error' ? 'true' : 'false'}
+                    aria-describedby={formError ? 'form-error' : undefined}
+                    className={`w-full px-4 py-3 outline-none uppercase text-center transition-all duration-base border ${
+                      formStatus === 'error'
+                        ? 'border-red-500 bg-red-950/20 focus:border-red-400 focus:shadow-[0_0_20px_rgba(239,68,68,0.3)]'
+                        : formStatus === 'success'
+                          ? 'border-green-500 bg-green-950/20 focus:border-green-400 focus:shadow-[0_0_20px_rgba(34,197,94,0.3)]'
+                          : 'bg-zinc-900 border-zinc-700 text-white focus:border-cyan-400 focus:shadow-[0_0_20px_rgba(34,211,238,0.3)]'
+                    }`}
+                    disabled={formStatus === 'validating' || formStatus === 'success'}
+                  />
+                  {formError && (
+                    <p id="form-error" className="text-red-400 text-xs mt-2">
+                      {formError}
+                    </p>
+                  )}
+                  {formStatus === 'success' && (
+                    <p className="text-green-400 text-xs mt-2">
+                      ¡Verificación completada! Revisa tu correo.
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  disabled={formStatus === 'validating' || formStatus === 'success'}
+                  className={`group w-full font-bold uppercase py-4 tracking-widest transition-all duration-base flex items-center justify-center gap-2 relative overflow-hidden ${
+                    formStatus === 'validating'
+                      ? 'opacity-75 cursor-wait'
+                      : formStatus === 'success'
+                        ? 'bg-green-500 text-black hover:bg-green-600'
+                        : 'bg-cyan-400 text-black hover:bg-white'
+                  }`}
+                >
                   <span className="relative z-10 flex items-center">
-                    Unirse y Descargar{' '}
-                    <ChevronRight
-                      size={16}
-                      className="ml-1 group-hover:translate-x-1 transition-transform duration-base"
-                    />
+                    {formStatus === 'validating'
+                      ? 'Procesando...'
+                      : formStatus === 'success'
+                        ? '✓ Confirmado'
+                        : 'Unirse y Descargar'}
+                    {formStatus !== 'validating' && formStatus !== 'success' && (
+                      <ChevronRight
+                        size={16}
+                        className="ml-1 group-hover:translate-x-1 transition-transform duration-base"
+                      />
+                    )}
                   </span>
                   <div className="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-base ease-out z-0"></div>
                 </button>
