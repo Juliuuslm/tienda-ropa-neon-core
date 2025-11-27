@@ -22,6 +22,7 @@ const NeonCore: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
+  const [reviewIds, setReviewIds] = useState<number[]>([])
 
   const navItems: NavItem[] = [
     { label: 'Colección', id: 'colección' },
@@ -36,6 +37,15 @@ const NeonCore: React.FC = () => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Generate review IDs only on client to avoid hydration mismatch
+  useEffect(() => {
+    setReviewIds([
+      Math.floor(Math.random() * 9000) + 1000,
+      Math.floor(Math.random() * 9000) + 1000,
+      Math.floor(Math.random() * 9000) + 1000,
+    ])
   }, [])
 
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
@@ -566,7 +576,7 @@ const NeonCore: React.FC = () => {
                     ))}
                   </div>
                   <span className="text-[10px] text-gray-600 font-mono">
-                    ID: #{Math.floor(Math.random() * 9000) + 1000}
+                    ID: #{reviewIds[i] || '????'}
                   </span>
                 </div>
 
