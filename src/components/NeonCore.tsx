@@ -17,6 +17,7 @@ import {
   Activity,
 } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
 import type { NavItem, ProductItem, Review, TechFeature } from '@/types'
 
 const NeonCore: React.FC = () => {
@@ -75,10 +76,19 @@ const NeonCore: React.FC = () => {
     ])
   }, [])
 
+  const modalRef = useFocusTrap(isModalOpen)
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
 
   return (
-    <div className="bg-black text-white min-h-screen font-body selection:bg-cyan-400 selection:text-black overflow-x-hidden">
+    <main className="bg-black text-white min-h-screen font-body selection:bg-cyan-400 selection:text-black overflow-x-hidden">
+      {/* --- SKIP LINK --- */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-[9999] focus:bg-cyan-400 focus:text-black focus:px-4 focus:py-2 focus:font-bold"
+      >
+        Saltar al contenido principal
+      </a>
+
       {/* --- SECCIÓN 1: NAVBAR --- */}
       <nav
         className={`fixed w-full z-50 transition-all duration-slow border-b ${
@@ -166,7 +176,7 @@ const NeonCore: React.FC = () => {
       )}
 
       {/* --- SECCIÓN 2: HERO (Cinematic Entry + Cyber Reactor Center) --- */}
-      <section className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
+      <section id="main-content" className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
         <div className="absolute inset-0 z-0" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
           <Image
             src="/images/hero/hero.jpg"
@@ -796,8 +806,14 @@ const NeonCore: React.FC = () => {
           <div
             className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
             onClick={toggleModal}
+            aria-hidden="true"
           ></div>
           <div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
             className="bg-black border border-cyan-400 p-6 sm:p-8 md:p-12 relative z-10 w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-w-lg shadow-[0_0_60px_rgba(34,211,238,0.4)] animate-modal-entry overflow-hidden"
             style={{ animation: 'modalEntry 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' }}
           >
@@ -816,13 +832,14 @@ const NeonCore: React.FC = () => {
               <div className="inline-block p-4 rounded-full bg-cyan-900/20 text-cyan-400 mb-6 border border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                 <Download size={32} />
               </div>
-              <h3
+              <h2
+                id="modal-title"
                 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold uppercase mb-4 text-center glitch-effect"
                 data-text="Acceso Restringido"
               >
                 Acceso Restringido
-              </h3>
-              <p className="text-gray-300 mb-8 font-mono text-sm">
+              </h2>
+              <p id="modal-description" className="text-gray-300 mb-8 font-mono text-sm">
                 &gt; DETECTED: UNAUTHORIZED USER
                 <br />
                 &gt; ACTION: SUBSCRIBE TO UNLOCK CATALOG_V4
@@ -857,7 +874,7 @@ const NeonCore: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   )
 }
 
