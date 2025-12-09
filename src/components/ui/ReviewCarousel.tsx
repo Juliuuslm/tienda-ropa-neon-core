@@ -114,7 +114,7 @@ export default function ReviewCarousel({
           className="flex transition-transform duration-500 ease-out gap-6"
           style={{
             transform: isMobile
-              ? `translateX(calc(-${currentIndex} * (85% + 24px) + 7.5%))`
+              ? `translateX(calc(-${currentIndex} * (100% + 24px)))`
               : `translateX(calc(-${currentIndex} * (50% + 16px)))`,
           }}
         >
@@ -123,7 +123,7 @@ export default function ReviewCarousel({
             return (
               <div
                 key={idx}
-                className="min-w-[85%] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-3 md:px-4 flex-shrink-0"
+                className="min-w-[100%] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-3 md:px-4 flex-shrink-0"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
