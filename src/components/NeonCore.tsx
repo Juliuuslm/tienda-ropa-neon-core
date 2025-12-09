@@ -18,15 +18,15 @@ import {
 } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
 import ImageModal from '@/components/ui/ImageModal'
+import ReviewCarousel from '@/components/ui/ReviewCarousel'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
-import type { NavItem, ProductItem, Review, TechFeature, GalleryImage } from '@/types'
+import type { NavItem, ProductItem, TechFeature, GalleryImage } from '@/types'
 
 const NeonCore: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
   const [activeSection, setActiveSection] = useState<string>('')
-  const [reviewIds, setReviewIds] = useState<number[]>([])
   const [formEmail, setFormEmail] = useState<string>('')
   const [formStatus, setFormStatus] = useState<'idle' | 'validating' | 'success' | 'error'>('idle')
   const [formError, setFormError] = useState<string>('')
@@ -178,15 +178,6 @@ const NeonCore: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [scrolled, activeSection, navItems])
-
-  // Generate review IDs only on client to avoid hydration mismatch
-  useEffect(() => {
-    setReviewIds([
-      Math.floor(Math.random() * 9000) + 1000,
-      Math.floor(Math.random() * 9000) + 1000,
-      Math.floor(Math.random() * 9000) + 1000,
-    ])
-  }, [])
 
   const modalRef = useFocusTrap(isModalOpen)
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
@@ -727,8 +718,9 @@ const NeonCore: React.FC = () => {
           <h2 className="text-center text-4xl font-display font-bold uppercase mb-16">
             Opiniones <span className="text-stroke text-white">Reales</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
+
+          <ReviewCarousel
+            reviews={[
               {
                 user: 'KAI_ZEN',
                 role: 'Netrunner',
@@ -747,65 +739,35 @@ const NeonCore: React.FC = () => {
                 text: 'El print de la playera "Failure" no se ha desgastado después de 20 lavadas. Calidad sólida.',
                 rating: 4,
               },
-            ].map((review: Review, i: number) => {
-              const reviewImages = [
-                '/images/reviews/reviwes (1).jpg',
-                '/images/reviews/reviwes (2).jpg',
-                '/images/reviews/reviwes (3).jpg',
-                '/images/reviews/reviwes (4).jpg',
-              ];
-              return (
-              <div
-                key={i}
-                className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-base relative group hover:-translate-y-2"
-              >
-                <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
-                  <div className="relative w-12 h-12 rounded-sm border border-cyan-500/30 group-hover:border-cyan-400 transition-colors duration-base overflow-hidden">
-                    <Image
-                      src={reviewImages[i] || '/images/reviews/reviwes (1).jpg'}
-                      alt={review.user}
-                      width={48}
-                      height={48}
-                      quality={60}
-                      loading="lazy"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white uppercase tracking-wider">
-                      {review.user}
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-[10px] text-gray-500 font-mono uppercase">
-                        {review.role}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-300 mb-6 font-mono text-sm leading-relaxed relative">
-                  <span className="text-cyan-500/30 absolute -left-2 -top-2 text-2xl">
-                    "
-                  </span>
-                  {review.text}
-                </p>
-                <div className="flex justify-between items-center">
-                  <div className="flex text-cyan-400 gap-1">
-                    {[...Array(review.rating)].map((_, r) => (
-                      <Zap key={r} size={14} fill="currentColor" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-gray-600 font-mono">
-                    ID: #{reviewIds[i] || '????'}
-                  </span>
-                </div>
-
-                <div className="absolute top-0 right-0 w-0 h-0 border-t-2 border-r-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-base"></div>
-                <div className="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-base"></div>
-              </div>
-            );
-            })}
-          </div>
+              {
+                user: 'CL-URIEL',
+                role: 'Code Runner',
+                text: 'Perfecto para largas sesiones de trabajo. La capucha aísla del ruido externo y el tejido es premium. Ya pedí otra.',
+                rating: 5,
+              },
+              {
+                user: 'FERDINAND',
+                role: 'Street Poet',
+                text: 'Neon Core no es solo ropa, es una actitud. Cada vez que la uso siento que soy parte de algo mayor.',
+                rating: 5,
+              },
+              {
+                user: 'ZELDA',
+                role: 'Cyber Cartographer',
+                text: 'Resistencia sin comprometer el estilo. Los detalles tácticos son funcionales y la calidad es inmediata al tacto.',
+                rating: 5,
+              },
+            ]}
+            reviewImages={[
+              '/images/reviews/reviwes (1).jpg',
+              '/images/reviews/reviwes (2).jpg',
+              '/images/reviews/reviwes (3).jpg',
+              '/images/reviews/reviwes (4).jpg',
+              '/images/reviews/reviwes (1).jpg',
+              '/images/reviews/reviwes (2).jpg',
+            ]}
+            autoplayInterval={5000}
+          />
         </div>
       </SectionWrapper>
 
