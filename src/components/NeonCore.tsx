@@ -593,7 +593,19 @@ const NeonCore: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
               </div>
 
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
+              {/* Mobile: Botón simple en la parte inferior */}
+              <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 z-20">
+                <button
+                  onClick={toggleModal}
+                  className="bg-cyan-400 text-black px-6 py-3 font-bold uppercase tracking-wider hover:bg-white transition-all duration-base w-full min-h-[44px] flex items-center justify-between"
+                >
+                  <span>Comprar</span>
+                  <span className="font-mono">{item.price}</span>
+                </button>
+              </div>
+
+              {/* Desktop: Overlay completo con hover reveal */}
+              <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
                 <div className="bg-black/95 p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base">
                   <Lock className="w-8 h-8 text-cyan-400 mb-2 mx-auto" />
                   <h3 className="text-xl font-bold uppercase mb-1">
@@ -609,7 +621,7 @@ const NeonCore: React.FC = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-base">
+              <div className="hidden md:block absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-base">
                 <div className="flex justify-between items-end border-t border-white/20 pt-4">
                   <h3 className="text-xl font-bold uppercase">{item.name}</h3>
                   <span className="text-cyan-400 font-mono">{item.price}</span>
