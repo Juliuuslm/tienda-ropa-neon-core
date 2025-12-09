@@ -179,6 +179,30 @@ const NeonCore: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [scrolled, activeSection, navItems])
 
+  // Bloquear scroll cuando el Modal VIP está abierto
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isModalOpen])
+
+  // Bloquear scroll cuando el Mobile Menu está abierto
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMenuOpen])
+
   const modalRef = useFocusTrap(isModalOpen)
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
 
@@ -913,7 +937,7 @@ const NeonCore: React.FC = () => {
 
       {/* --- MODAL POPUP (CRT & Scanline Animation) --- */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
             onClick={toggleModal}

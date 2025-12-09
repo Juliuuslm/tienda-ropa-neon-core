@@ -77,12 +77,14 @@ export default function ReviewCarousel({
       {/* Carrusel Container */}
       <div
         ref={carouselRef}
-        className="overflow-hidden rounded-lg py-12 px-5"
+        className="overflow-hidden rounded-lg py-8 px-3 md:py-12 md:px-5"
       >
         <div
           className="flex transition-transform duration-500 ease-out gap-8"
           style={{
-            transform: `translateX(calc(-${currentIndex} * (50% + 16px)))`,
+            transform: isMobile
+              ? `translateX(calc(-${currentIndex} * 100%))`
+              : `translateX(calc(-${currentIndex} * (50% + 16px)))`,
           }}
         >
           {duplicatedReviews.map((review, idx) => {
@@ -90,7 +92,7 @@ export default function ReviewCarousel({
             return (
               <div
                 key={idx}
-                className="min-w-[calc(100% - 0px)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-4 flex-shrink-0"
+                className="min-w-[calc(100% - 0px)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-2 md:px-4 flex-shrink-0"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
@@ -157,13 +159,13 @@ export default function ReviewCarousel({
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-14 z-20 w-10 h-10 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
           >
             ‹
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-14 z-20 w-10 h-10 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
           >
             ›
           </button>
@@ -172,20 +174,26 @@ export default function ReviewCarousel({
 
       {/* Dots Indicator - Solo en mobile */}
       {isMobile && (
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex justify-center gap-3 mt-4 md:mt-8">
           {reviews.map((_, idx) => (
             <button
               key={idx}
               onClick={() => {
                 setCurrentIndex(idx)
               }}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`transition-all duration-300 p-2 ${
                 currentIndex === idx
-                  ? 'bg-cyan-400 w-8'
-                  : 'bg-white/30 hover:bg-white/50'
+                  ? 'w-10 h-4'
+                  : 'w-4 h-4'
               }`}
               aria-label={`Go to review ${idx + 1}`}
-            />
+            >
+              <span className={`block rounded-full ${
+                currentIndex === idx
+                  ? 'w-full h-full bg-cyan-400'
+                  : 'w-full h-full bg-white/30 hover:bg-white/50'
+              }`} />
+            </button>
           ))}
         </div>
       )}
