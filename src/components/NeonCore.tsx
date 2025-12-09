@@ -17,8 +17,9 @@ import {
   Activity,
 } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
+import ImageModal from '@/components/ui/ImageModal'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
-import type { NavItem, ProductItem, Review, TechFeature } from '@/types'
+import type { NavItem, ProductItem, Review, TechFeature, GalleryImage } from '@/types'
 
 const NeonCore: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
@@ -29,6 +30,10 @@ const NeonCore: React.FC = () => {
   const [formEmail, setFormEmail] = useState<string>('')
   const [formStatus, setFormStatus] = useState<'idle' | 'validating' | 'success' | 'error'>('idle')
   const [formError, setFormError] = useState<string>('')
+
+  // Image Modal state
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
+  const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false)
 
   // Refs para scroll sin re-renders
   const scrollYRef = useRef<number>(0)
@@ -41,6 +46,76 @@ const NeonCore: React.FC = () => {
     { label: 'Lookbook', id: 'lookbook' },
     { label: 'Reseñas', id: 'reviews' },
     { label: 'Comunidad', id: 'comunidad' },
+  ]
+
+  const lookbookImages: GalleryImage[] = [
+    {
+      src: '/images/lookbook/lookbook (1).jpg',
+      alt: 'Night Ops Hoodie',
+      title: 'Night Ops Hoodie',
+      description: 'Interceptado en Sector 7 durante operaciones nocturnas. La hoodie V2 se mantiene firme contra el frío urbano. Tejido heavyweight de 450gsm con capucha reforzada. Perfecta para misiones de infiltración o simplemente sobrevivir la madrugada.',
+      location: 'SECTOR_7',
+      id: 'NK_7842',
+    },
+    {
+      src: '/images/lookbook/lookbook (2).jpg',
+      alt: 'Street Recon',
+      title: 'Street Recon',
+      description: 'Transmisión detectada en zona comercial. El usuario porta equipamiento táctico completo con gorra 5-Panel anti-scan. Observado navegando entre multitudes sin ser detectado. El estampado reflectante mantiene visibilidad en condiciones de poca luz.',
+      location: 'DOWNTOWN_GRID',
+      id: 'NK_5129',
+    },
+    {
+      src: '/images/lookbook/lookbook (3).jpg',
+      alt: 'Urban Survival',
+      title: 'Urban Survival',
+      description: 'Captura satelital del distrito industrial. Sistema_Failure Tee combinada con accesorios tácticos. El sujeto demuestra perfecta adaptación al entorno urbano hostil. Estampado de alta densidad permanece intacto después de múltiples ciclos de desgaste.',
+      location: 'INDUSTRIAL_ZONE',
+      id: 'NK_8842',
+    },
+    {
+      src: '/images/lookbook/lookbook (4).jpg',
+      alt: 'Rooftop Operations',
+      title: 'Rooftop Operations',
+      description: 'Target identificado en elevación superior. Equipado con full Neon Core kit para operaciones en altura. La combinación de hoodie y pantalones cargo proporciona máxima movilidad. Distancia estimada: 40 metros. Estado: En vigilancia activa.',
+      location: 'ROOFTOP_ACCESS',
+      id: 'NK_3301',
+    },
+  ]
+
+  const socialImages: GalleryImage[] = [
+    {
+      src: '/images/social/social (1).jpg',
+      alt: 'Community Member 1',
+      title: 'Neo-Tokyo Runner',
+      description: 'Miembro verificado de la comunidad capturado en las calles de Neo-Tokyo. Portando hoodie clásica con diseño reflectante personalizado. La comunidad Neon Core se extiende por cada rincón del mundo digital y físico.',
+      location: 'NEO_TOKYO',
+      id: 'COM_1847',
+    },
+    {
+      src: '/images/social/social (2).jpg',
+      alt: 'Community Member 2',
+      title: 'Berlin Netrunner',
+      description: 'Transmisión desde Berlin underground. Este runner demuestra el poder del minimalismo táctico con la playera System_Failure. La comunidad crece, uno a uno, conectados por el código y el estilo.',
+      location: 'BERLIN_GRID',
+      id: 'COM_9214',
+    },
+    {
+      src: '/images/social/social (3).jpg',
+      alt: 'Community Member 3',
+      title: 'Los Angeles Rebel',
+      description: 'Detectado en el distrito artístico de LA. La gorra Neural_Link se ha convertido en símbolo de resistencia urbana. Cada pieza cuenta una historia, cada usuario es parte del movimiento.',
+      location: 'LA_ARTS_DISTRICT',
+      id: 'COM_7653',
+    },
+    {
+      src: '/images/social/social (4).jpg',
+      alt: 'Community Member 4',
+      title: 'London Street Artist',
+      description: 'Captura nocturna en East London. El sujeto customizó su hoodie con parches de código hex. La comunidad no solo viste Neon Core, la vive, la modifica, la hace suya. Esto es más que ropa, es identidad.',
+      location: 'EAST_LONDON',
+      id: 'COM_4129',
+    },
   ]
 
   useEffect(() => {
@@ -115,6 +190,16 @@ const NeonCore: React.FC = () => {
 
   const modalRef = useFocusTrap(isModalOpen)
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
+
+  const openImageModal = (image: GalleryImage): void => {
+    setSelectedImage(image)
+    setIsImageModalOpen(true)
+  }
+
+  const closeImageModal = (): void => {
+    setIsImageModalOpen(false)
+    setTimeout(() => setSelectedImage(null), 300) // Delay para animación de salida
+  }
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -599,69 +684,35 @@ const NeonCore: React.FC = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-2 h-auto md:h-[600px]">
-          <div className="col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
-            <Image
-              src="/images/lookbook/lookbook (1).jpg"
-              alt="Look 1"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-            <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-              <div className="border-l-2 border-cyan-400 pl-3">
-                <span className="bg-black text-cyan-400 text-xs px-2 py-1 font-mono mb-1 inline-block">
-                  LOC: SECTOR_7
-                </span>
-                <p className="text-white font-bold uppercase text-lg">
-                  Night Ops Hoodie
-                </p>
+          {lookbookImages.map((image, i) => {
+            const gridClasses = i === 0 || i === 3
+              ? 'col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto'
+              : 'col-span-1 sm:col-span-1 md:col-span-1 aspect-square'
+
+            return (
+              <div
+                key={i}
+                className={`${gridClasses} relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow cursor-pointer`}
+                onClick={() => openImageModal(image)}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center">
+                  <div className="bg-black/80 border border-cyan-400/50 px-4 py-3">
+                    <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider">
+                      Click para ampliar
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
               </div>
-            </div>
-            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
-          </div>
-
-          <div className="col-span-1 sm:col-span-1 md:col-span-1 md:row-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
-            <Image
-              src="/images/lookbook/lookbook (2).jpg"
-              alt="Look 2"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
-            />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80">
-              <Activity className="text-cyan-400" />
-            </div>
-          </div>
-
-          <div className="col-span-1 sm:col-span-1 md:col-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-base">
-            <Image
-              src="/images/lookbook/lookbook (3).jpg"
-              alt="Look 3"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
-            />
-            <div className="absolute bottom-2 right-2 text-[10px] font-mono text-cyan-400 bg-black/80 px-2">
-              IMG_8842.RAW
-            </div>
-          </div>
-
-          <div className="col-span-1 sm:col-span-2 md:col-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-base">
-            <Image
-              src="/images/lookbook/lookbook (4).jpg"
-              alt="Look 4"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-            />
-            <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
-              <div className="text-[10px] text-white font-mono leading-tight">
-                TARGET: UNKNOWN
-                <br />
-                DIST: 40M
-              </div>
-            </div>
-          </div>
+            )
+          })}
         </div>
       </SectionWrapper>
 
@@ -764,27 +815,26 @@ const NeonCore: React.FC = () => {
           Comunidad <span className="text-stroke text-white">Global</span>
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            '/images/social/social (1).jpg',
-            '/images/social/social (2).jpg',
-            '/images/social/social (3).jpg',
-            '/images/social/social (4).jpg',
-          ].map((img: string, i: number) => (
+          {socialImages.map((image, i) => (
             <div
               key={i}
               className="relative group aspect-square overflow-hidden cursor-pointer border border-transparent hover:border-cyan-400 transition-all duration-base"
+              onClick={() => openImageModal(image)}
             >
               <Image
-                src={img}
-                alt={`Social ${i + 1}`}
+                src={image.src}
+                alt={image.alt}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
                 quality={70}
                 loading="lazy"
                 className="object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
               />
-              <div className="absolute inset-0 bg-cyan-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Instagram className="text-white w-10 h-10 animate-bounce" />
+              <div className="absolute inset-0 bg-cyan-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                <Activity className="text-white w-10 h-10" />
+                <p className="text-white font-mono text-xs uppercase tracking-wider">
+                  Ver Detalles
+                </p>
               </div>
             </div>
           ))}
@@ -1010,6 +1060,20 @@ const NeonCore: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* --- IMAGE MODAL --- */}
+      {selectedImage && (
+        <ImageModal
+          isOpen={isImageModalOpen}
+          onClose={closeImageModal}
+          imageSrc={selectedImage.src}
+          imageAlt={selectedImage.alt}
+          title={selectedImage.title}
+          description={selectedImage.description}
+          location={selectedImage.location}
+          id={selectedImage.id}
+        />
       )}
     </main>
   )
