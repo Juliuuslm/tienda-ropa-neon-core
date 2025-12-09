@@ -73,7 +73,7 @@ export default function ReviewCarousel({
   }
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full pb-8">
       {/* Carrusel Container */}
       <div
         ref={carouselRef}
@@ -90,7 +90,7 @@ export default function ReviewCarousel({
             return (
               <div
                 key={idx}
-                className="min-w-[calc(100% - 0px)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(33.333% - 21.33px)] px-4 flex-shrink-0"
+                className="min-w-[calc(100% - 0px)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-4 flex-shrink-0"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
