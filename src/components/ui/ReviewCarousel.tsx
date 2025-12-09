@@ -73,16 +73,16 @@ export default function ReviewCarousel({
   }
 
   return (
-    <div className="relative w-full pb-8">
+    <div className="relative w-full pt-6 pb-8">
       {/* Carrusel Container */}
       <div
         ref={carouselRef}
         className="overflow-hidden rounded-lg"
       >
         <div
-          className="flex transition-transform duration-500 ease-out"
+          className="flex transition-transform duration-500 ease-out gap-8"
           style={{
-            transform: `translateX(calc(-${currentIndex} * (100% + 32px)))`,
+            transform: `translateX(calc(-${currentIndex} * (50% + 16px)))`,
           }}
         >
           {duplicatedReviews.map((review, idx) => {
@@ -94,7 +94,7 @@ export default function ReviewCarousel({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-base relative group hover:-translate-y-2 h-full">
+                <div className="bg-black border border-white/10 p-6 hover:border-cyan-400/50 transition-all duration-base relative group hover:-translate-y-1 h-full">
                   <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
                     <div className="relative w-12 h-12 rounded-sm border border-cyan-500/30 group-hover:border-cyan-400 transition-colors duration-base overflow-hidden">
                       <Image
