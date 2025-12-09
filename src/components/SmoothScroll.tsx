@@ -18,9 +18,11 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.8, // Reducido de 1.2s para mejor respuesta
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5, // Mejor respuesta en mobile
     })
 
     function raf(time: number) {

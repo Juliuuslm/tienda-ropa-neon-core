@@ -132,6 +132,7 @@ const NeonCore: React.FC = () => {
             ? 'bg-black/80 backdrop-blur-lg border-cyan-500/20 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
             : 'bg-transparent border-transparent py-6'
         }`}
+        style={scrolled ? { willChange: 'backdrop-filter' } : undefined}
       >
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="text-2xl font-display font-bold tracking-tighter italic group cursor-pointer">
@@ -382,10 +383,14 @@ const NeonCore: React.FC = () => {
           </div>
           <div className="relative h-[500px] border border-white/20 p-2 group overflow-hidden">
             <div className="absolute inset-0 bg-cyan-500/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-slow z-20"></div>
-            <img
+            <Image
               src="/images/manifiesto/about.jpg"
               alt="Modelo Hoodie"
-              className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-slower ease-out"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={75}
+              loading="lazy"
+              className="object-cover grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-slower ease-out"
             />
             <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none z-30 shadow-[0_0_10px_#22d3ee]"></div>
           </div>
@@ -438,16 +443,20 @@ const NeonCore: React.FC = () => {
               style={{ transitionDelay: `${idx * 150}ms` }}
             >
               <div className="aspect-[3/4] overflow-hidden relative">
-                <img
+                <Image
                   src={item.img}
                   alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-slower group-hover:scale-105 opacity-70 group-hover:opacity-100"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={70}
+                  loading="lazy"
+                  className="object-cover transition-transform duration-slower group-hover:scale-105 opacity-70 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
               </div>
 
               <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
-                <div className="bg-black/80 backdrop-blur-md p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base">
+                <div className="bg-black/95 p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base">
                   <Lock className="w-8 h-8 text-cyan-400 mb-2 mx-auto" />
                   <h3 className="text-xl font-bold uppercase mb-1">
                     {item.name}
@@ -485,11 +494,17 @@ const NeonCore: React.FC = () => {
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-cyan-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-purple-500/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
 
-              <img
-                src="/images/tech/tech.jpg"
-                alt="Tech Fabric"
-                className="relative z-10 w-full rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-float"
-              />
+              <div className="relative z-10 w-full aspect-square rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-float overflow-hidden">
+                <Image
+                  src="/images/tech/tech.jpg"
+                  alt="Tech Fabric"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={75}
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </div>
             </div>
 
             <SectionWrapper className="order-1 md:order-2">
@@ -575,7 +590,7 @@ const NeonCore: React.FC = () => {
               className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
             />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80">
               <Activity className="text-cyan-400" />
             </div>
           </div>
@@ -656,11 +671,17 @@ const NeonCore: React.FC = () => {
                 className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-base relative group hover:-translate-y-2"
               >
                 <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
-                  <img
-                    src={reviewImages[i] || '/images/reviews/reviwes (1).jpg'}
-                    alt={review.user}
-                    className="w-12 h-12 rounded-sm border border-cyan-500/30 object-cover group-hover:border-cyan-400 transition-colors duration-base"
-                  />
+                  <div className="relative w-12 h-12 rounded-sm border border-cyan-500/30 group-hover:border-cyan-400 transition-colors duration-base overflow-hidden">
+                    <Image
+                      src={reviewImages[i] || '/images/reviews/reviwes (1).jpg'}
+                      alt={review.user}
+                      width={48}
+                      height={48}
+                      quality={60}
+                      loading="lazy"
+                      className="object-cover"
+                    />
+                  </div>
                   <div>
                     <h4 className="font-bold text-white uppercase tracking-wider">
                       {review.user}
@@ -715,12 +736,16 @@ const NeonCore: React.FC = () => {
               key={i}
               className="relative group aspect-square overflow-hidden cursor-pointer border border-transparent hover:border-cyan-400 transition-all duration-base"
             >
-              <img
+              <Image
                 src={img}
-                className="w-full h-full object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
                 alt={`Social ${i + 1}`}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                quality={70}
+                loading="lazy"
+                className="object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
               />
-              <div className="absolute inset-0 bg-cyan-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+              <div className="absolute inset-0 bg-cyan-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <Instagram className="text-white w-10 h-10 animate-bounce" />
               </div>
             </div>
@@ -843,6 +868,7 @@ const NeonCore: React.FC = () => {
             className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
             onClick={toggleModal}
             aria-hidden="true"
+            style={{ willChange: 'backdrop-filter' }}
           ></div>
           <div
             ref={modalRef}

@@ -3,7 +3,7 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */ /* COMENTADO - conflicta con Lenis causando doble suavizado */
   }
 
   ::-webkit-scrollbar {
@@ -51,10 +51,12 @@
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
+    will-change: transform;
   }
 
   .animate-grid {
     animation: grid-move 3s linear infinite;
+    will-change: transform;
   }
 
   .animate-spin-slow {
