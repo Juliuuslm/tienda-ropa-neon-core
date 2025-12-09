@@ -22,6 +22,8 @@ export default function ReviewCarousel({
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
 
   // Generar IDs aleatorios solo una vez (hydration-safe)
   useEffect(() => {
@@ -72,18 +74,47 @@ export default function ReviewCarousel({
     setIsHovered(false)
   }
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      handleNext()
+    }
+    if (isRightSwipe) {
+      handlePrev()
+    }
+
+    setTouchStart(0)
+    setTouchEnd(0)
+  }
+
   return (
     <div className="relative w-full pb-8">
       {/* Carrusel Container */}
       <div
         ref={carouselRef}
-        className="overflow-hidden rounded-lg py-8 px-3 md:py-12 md:px-5"
+        className="overflow-hidden rounded-lg py-8 px-0 md:py-12 md:px-5"
+        onTouchStart={isMobile ? handleTouchStart : undefined}
+        onTouchMove={isMobile ? handleTouchMove : undefined}
+        onTouchEnd={isMobile ? handleTouchEnd : undefined}
       >
         <div
-          className="flex transition-transform duration-500 ease-out gap-8"
+          className="flex transition-transform duration-500 ease-out gap-6"
           style={{
             transform: isMobile
-              ? `translateX(calc(-${currentIndex} * 100%))`
+              ? `translateX(calc(-${currentIndex} * (85% + 24px) + 7.5%))`
               : `translateX(calc(-${currentIndex} * (50% + 16px)))`,
           }}
         >
@@ -92,7 +123,7 @@ export default function ReviewCarousel({
             return (
               <div
                 key={idx}
-                className="min-w-[calc(95%)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-2 md:px-4 flex-shrink-0"
+                className="min-w-[85%] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-3 md:px-4 flex-shrink-0"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
@@ -154,44 +185,20 @@ export default function ReviewCarousel({
         </div>
       </div>
 
-      {/* Navigation Buttons - Solo en mobile */}
-      {isMobile && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="absolute left-2 top-20 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
-          >
-            ‹
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-2 top-20 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
-          >
-            ›
-          </button>
-        </>
-      )}
-
       {/* Dots Indicator - Solo en mobile */}
       {isMobile && (
-        <div className="flex justify-center gap-3 mt-4 md:mt-8">
+        <div className="flex justify-center gap-2 mt-6">
           {reviews.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => {
-                setCurrentIndex(idx)
-              }}
-              className={`transition-all duration-300 p-2 ${
-                currentIndex === idx
-                  ? 'w-10 h-4'
-                  : 'w-4 h-4'
-              }`}
-              aria-label={`Go to review ${idx + 1}`}
+              onClick={() => setCurrentIndex(idx)}
+              className="p-2 transition-all duration-300"
+              aria-label={`Ir a reseña ${idx + 1}`}
             >
-              <span className={`block rounded-full ${
+              <div className={`h-1.5 rounded-full transition-all duration-300 ${
                 currentIndex === idx
-                  ? 'w-full h-full bg-cyan-400'
-                  : 'w-full h-full bg-white/30 hover:bg-white/50'
+                  ? 'w-8 bg-cyan-400'
+                  : 'w-1.5 bg-white/30'
               }`} />
             </button>
           ))}
