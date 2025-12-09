@@ -18,8 +18,16 @@ export default function ReviewCarousel({
 }: ReviewCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoplay, setIsAutoplay] = useState(true)
+  const [reviewIds, setReviewIds] = useState<number[]>([])
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
+
+  // Generar IDs aleatorios solo una vez (hydration-safe)
+  useEffect(() => {
+    setReviewIds(
+      reviews.map(() => Math.floor(Math.random() * 9000) + 1000)
+    )
+  }, [reviews.length])
 
   // Duplicar reviews para efecto infinito
   const duplicatedReviews = [...reviews, ...reviews]
@@ -120,7 +128,7 @@ export default function ReviewCarousel({
                       ))}
                     </div>
                     <span className="text-[10px] text-gray-600 font-mono">
-                      ID: #{Math.floor(Math.random() * 9000) + 1000}
+                      ID: #{reviewIds[imageIndex] || '????'}
                     </span>
                   </div>
 
