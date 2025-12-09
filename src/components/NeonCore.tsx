@@ -941,6 +941,10 @@ const NeonCore: React.FC = () => {
           <div
             className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
             onClick={toggleModal}
+            onTouchEnd={(e) => {
+              e.preventDefault()
+              toggleModal()
+            }}
             aria-hidden="true"
             style={{ willChange: 'backdrop-filter' }}
           ></div>
@@ -950,7 +954,7 @@ const NeonCore: React.FC = () => {
             aria-modal="true"
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
-            className="bg-black border border-cyan-400 p-6 sm:p-8 md:p-12 relative z-10 w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-w-lg shadow-[0_0_60px_rgba(34,211,238,0.4)] animate-modal-entry overflow-hidden"
+            className="bg-black border border-cyan-400 p-6 sm:p-8 md:p-12 relative z-10 w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_0_60px_rgba(34,211,238,0.4)] animate-modal-entry"
             style={{ animation: 'modalEntry 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' }}
           >
             <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-20"></div>
@@ -958,7 +962,7 @@ const NeonCore: React.FC = () => {
 
             <button
               onClick={toggleModal}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white transition-all duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 p-3 z-30 text-gray-400 hover:text-white transition-all duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm"
               aria-label="Cerrar modal"
             >
               <X className="w-6 h-6" />
@@ -1043,6 +1047,12 @@ const NeonCore: React.FC = () => {
               <p className="text-[10px] text-gray-600 mt-4 uppercase tracking-widest">
                 Encrypted Connection // Secure Protocol
               </p>
+              <button
+                onClick={toggleModal}
+                className="mt-6 text-cyan-400 hover:text-white text-xs uppercase tracking-wider border border-cyan-400/30 hover:border-cyan-400 px-8 py-2 transition-all duration-base"
+              >
+                Cerrar
+              </button>
             </div>
           </div>
         </div>
