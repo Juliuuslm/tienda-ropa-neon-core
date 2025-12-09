@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import {
   Menu,
@@ -24,12 +24,15 @@ const NeonCore: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
-  const [scrollY, setScrollY] = useState<number>(0)
   const [activeSection, setActiveSection] = useState<string>('')
   const [reviewIds, setReviewIds] = useState<number[]>([])
   const [formEmail, setFormEmail] = useState<string>('')
   const [formStatus, setFormStatus] = useState<'idle' | 'validating' | 'success' | 'error'>('idle')
   const [formError, setFormError] = useState<string>('')
+
+  // Refs para scroll sin re-renders
+  const scrollYRef = useRef<number>(0)
+  const heroParallaxRef = useRef<HTMLDivElement>(null)
 
   const navItems: NavItem[] = [
     { label: 'Colección', id: 'colección' },
@@ -41,34 +44,65 @@ const NeonCore: React.FC = () => {
   ]
 
   useEffect(() => {
+    let ticking = false
+    let sectionCalcTick = false
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-      setScrollY(window.scrollY)
+      const scrollPos = window.scrollY
+      scrollYRef.current = scrollPos
 
-      // Detect active section
-      const sections = navItems.map((item) => {
-        const element = document.getElementById(item.id)
-        return element
-          ? {
-              id: item.id,
-              top: element.offsetTop,
-              height: element.offsetHeight,
-            }
-          : null
-      }).filter(Boolean)
+      // Update parallax directo al DOM (NO causa re-render)
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (heroParallaxRef.current) {
+            heroParallaxRef.current.style.transform = `translateY(${scrollPos * 0.5}px)`
+          }
 
-      const currentScroll = window.scrollY + 150
-      const current = sections.find(
-        (section) =>
-          section &&
-          currentScroll >= section.top &&
-          currentScroll < section.top + section.height
-      )
-      setActiveSection(current?.id || '')
+          // Solo actualizar scrolled cuando cruza threshold
+          const isScrolled = scrollPos > 50
+          if (isScrolled !== scrolled) {
+            setScrolled(isScrolled)
+          }
+
+          ticking = false
+        })
+        ticking = true
+      }
+
+      // Throttle cálculo de active section a cada 100ms
+      if (!sectionCalcTick) {
+        setTimeout(() => {
+          const sections = navItems.map((item) => {
+            const element = document.getElementById(item.id)
+            return element
+              ? {
+                  id: item.id,
+                  top: element.offsetTop,
+                  height: element.offsetHeight,
+                }
+              : null
+          }).filter(Boolean)
+
+          const currentScroll = scrollYRef.current + 150
+          const current = sections.find(
+            (section) =>
+              section &&
+              currentScroll >= section.top &&
+              currentScroll < section.top + section.height
+          )
+          const newActiveSection = current?.id || ''
+          if (newActiveSection !== activeSection) {
+            setActiveSection(newActiveSection)
+          }
+          sectionCalcTick = false
+        }, 100)
+        sectionCalcTick = true
+      }
     }
-    window.addEventListener('scroll', handleScroll)
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [scrolled, activeSection, navItems])
 
   // Generate review IDs only on client to avoid hydration mismatch
   useEffect(() => {
@@ -214,7 +248,11 @@ const NeonCore: React.FC = () => {
 
       {/* --- SECCIÓN 2: HERO (Cinematic Entry + Cyber Reactor Center) --- */}
       <section id="main-content" className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
-        <div className="absolute inset-0 z-0" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
+        <div
+          ref={heroParallaxRef}
+          className="absolute inset-0 z-0"
+          style={{ willChange: 'transform' }}
+        >
           <Image
             src="/images/hero/hero.jpg"
             alt="Cyberpunk City"
@@ -229,16 +267,16 @@ const NeonCore: React.FC = () => {
 
         {/* --- EFECTO: CYBER REACTOR CORE (CENTER) --- */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 opacity-60 hidden md:block">
-          <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow border-dashed"></div>
+          <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow border-dashed" style={{ willChange: 'transform' }}></div>
 
-          <div className="absolute inset-[15%] border border-purple-500/20 rounded-full animate-spin-reverse-slow border-dotted shadow-[0_0_30px_rgba(168,85,247,0.1)]"></div>
+          <div className="absolute inset-[15%] border border-purple-500/20 rounded-full animate-spin-reverse-slow border-dotted shadow-[0_0_30px_rgba(168,85,247,0.1)]" style={{ willChange: 'transform' }}></div>
 
-          <div className="absolute inset-[30%] border-t-2 border-b-2 border-transparent border-t-cyan-400/30 border-b-cyan-400/30 rounded-full animate-spin duration-[3s]"></div>
+          <div className="absolute inset-[30%] border-t-2 border-b-2 border-transparent border-t-cyan-400/30 border-b-cyan-400/30 rounded-full animate-spin duration-[3s]" style={{ willChange: 'transform' }}></div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]" style={{ willChange: 'transform' }}></div>
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]"
-            style={{ animationDelay: '1s' }}
+            style={{ animationDelay: '1s', willChange: 'transform' }}
           ></div>
 
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent"></div>
