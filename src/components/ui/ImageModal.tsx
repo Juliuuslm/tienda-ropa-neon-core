@@ -79,7 +79,7 @@ export default function ImageModal({
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
-              quality={90}
+              quality={75}
             />
             {/* Scanline effect */}
             <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 animate-[scanline_2s_linear_infinite] pointer-events-none"></div>
