@@ -14,7 +14,7 @@ interface ReviewCarouselProps {
 export default function ReviewCarousel({
   reviews,
   reviewImages,
-  autoplayInterval = 5000,
+  autoplayInterval = 3500,
 }: ReviewCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
@@ -77,7 +77,7 @@ export default function ReviewCarousel({
       {/* Carrusel Container */}
       <div
         ref={carouselRef}
-        className="overflow-hidden rounded-lg pt-10"
+        className="overflow-hidden rounded-lg py-12 px-5"
       >
         <div
           className="flex transition-transform duration-500 ease-out gap-8"
@@ -94,7 +94,7 @@ export default function ReviewCarousel({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className="bg-black border border-white/10 p-6 hover:border-cyan-400/50 transition-all duration-base relative group hover:scale-105 h-full">
+                <div className="bg-black border border-white/10 p-6 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all duration-base relative group hover:scale-[1.03] h-full">
                   <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
                     <div className="relative w-12 h-12 rounded-sm border border-cyan-500/30 group-hover:border-cyan-400 transition-colors duration-base overflow-hidden">
                       <Image
