@@ -92,7 +92,7 @@ export default function ReviewCarousel({
             return (
               <div
                 key={idx}
-                className="min-w-[calc(100% - 0px)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-2 md:px-4 flex-shrink-0"
+                className="min-w-[calc(95%)] md:min-w-[calc(50% - 16px)] lg:min-w-[calc(50% - 16px)] px-2 md:px-4 flex-shrink-0"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
@@ -159,13 +159,13 @@ export default function ReviewCarousel({
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
+            className="absolute left-2 top-20 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
           >
             ‹
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
+            className="absolute right-2 top-20 z-20 w-12 h-12 flex items-center justify-center border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 hover:scale-110 font-bold text-xl"
           >
             ›
           </button>
