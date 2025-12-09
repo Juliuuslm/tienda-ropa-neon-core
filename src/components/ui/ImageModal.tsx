@@ -60,7 +60,7 @@ export default function ImageModal({
       />
 
       {/* Modal Content */}
-      <div className="relative z-10 max-w-6xl w-full max-h-[90vh] overflow-hidden">
+      <div className="relative z-10 max-w-6xl w-full max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -88,7 +88,7 @@ export default function ImageModal({
           </div>
 
           {/* Info Panel */}
-          <div className="relative p-8 flex flex-col justify-center bg-black border-l-2 border-cyan-400/30">
+          <div className="relative p-4 md:p-8 flex flex-col justify-center bg-black border-l-2 border-cyan-400/30">
             {/* Data Header */}
             <div className="flex items-center gap-2 mb-6 pb-3 border-b border-cyan-500/30">
               <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
