@@ -250,7 +250,7 @@ const NeonCore: React.FC = () => {
       <section id="main-content" className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
         <div
           ref={heroParallaxRef}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 pointer-events-none"
           style={{ willChange: 'transform' }}
         >
           <Image

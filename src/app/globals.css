@@ -3,7 +3,14 @@
 
 @layer base {
   html {
-    /* scroll-behavior: smooth; */ /* COMENTADO - conflicta con Lenis causando doble suavizado */
+    scroll-behavior: smooth; /* Activo para mobile (Lenis disabled < 1024px) */
+  }
+
+  /* Deshabilitar scroll-behavior en desktop donde Lenis está activo */
+  @media (min-width: 1024px) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   ::-webkit-scrollbar {

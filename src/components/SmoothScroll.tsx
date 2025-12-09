@@ -17,12 +17,20 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       return
     }
 
+    // Deshabilitar Lenis en mobile/tablet para evitar conflictos con touch
+    const isMobileOrTablet = window.innerWidth < 1024 || 'ontouchstart' in window
+
+    if (isMobileOrTablet) {
+      // En mobile usar scroll nativo para mejor UX y evitar conflictos
+      return
+    }
+
     const lenis = new Lenis({
-      duration: 0.8, // Reducido de 1.2s para mejor respuesta
+      duration: 0.6, // Reducido a 0.6s para scroll más rápido y responsive
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5, // Mejor respuesta en mobile
+      wheelMultiplier: 1.2, // Aumentado para más velocidad de respuesta
+      touchMultiplier: 1.5, // Mejor respuesta en mobile (aunque no se usa aquí)
     })
 
     function raf(time: number) {
