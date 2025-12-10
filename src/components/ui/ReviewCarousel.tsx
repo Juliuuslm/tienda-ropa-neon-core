@@ -40,7 +40,7 @@ export default function ReviewCarousel({
           return (
             <div
               key={`review-${idx}`}
-              className="w-fit max-w-[85vw] md:max-w-[450px] shrink-0"
+              className="w-fit min-w-[280px] max-w-[350px] shrink-0"
             >
               <div className="
                 bg-black
@@ -55,6 +55,8 @@ export default function ReviewCarousel({
                 duration-300
                 relative
                 h-full
+                max-h-[450px]
+                overflow-y-auto
               ">
                 {/* Header - Avatar + User Info */}
                 <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
