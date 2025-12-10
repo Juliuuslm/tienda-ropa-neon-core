@@ -754,9 +754,10 @@ const NeonCore: React.FC = () => {
           <h2 className="text-center text-4xl font-display font-bold uppercase mb-16">
             Opiniones <span className="text-stroke text-white">Reales</span>
           </h2>
+        </div>
 
-          <ReviewCarousel
-            reviews={[
+        <ReviewCarousel
+          reviews={[
               {
                 user: 'KAI_ZEN',
                 role: 'Netrunner',
@@ -803,7 +804,6 @@ const NeonCore: React.FC = () => {
               '/images/reviews/reviwes (2).jpg',
             ]}
           />
-        </div>
       </SectionWrapper>
 
       {/* --- SECCIÓN 9: SOCIAL (Grid Stagger) --- */}
