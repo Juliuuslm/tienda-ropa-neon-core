@@ -746,7 +746,7 @@ const NeonCore: React.FC = () => {
       {/* --- SECCIÓN NUEVA 8: ENCRYPTED TRANSMISSIONS (Testimonials) --- */}
       <SectionWrapper
         id="reviews"
-        className="py-24 bg-zinc-950 relative overflow-hidden"
+        className="py-24 bg-zinc-950 relative overflow-x-visible overflow-y-hidden"
       >
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(34,211,238,0.15) 1px, transparent 0)', backgroundSize: '20px 20px' }}></div>
 

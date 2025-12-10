@@ -123,6 +123,15 @@
     clip-path: inset(50% 0 30% 0);
     animation: glitch 0.3s infinite linear alternate-reverse;
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes scanline {
