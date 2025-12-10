@@ -802,7 +802,6 @@ const NeonCore: React.FC = () => {
               '/images/reviews/reviwes (1).jpg',
               '/images/reviews/reviwes (2).jpg',
             ]}
-            autoplayInterval={3500}
           />
         </div>
       </SectionWrapper>
