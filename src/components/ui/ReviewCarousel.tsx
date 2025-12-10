@@ -28,9 +28,9 @@ export default function ReviewCarousel({
 
   return (
     <div className="relative w-full overflow-hidden py-8">
-      {/* Marquee Track - CRÍTICO: flex + items-start */}
+      {/* Marquee Track - CRÍTICO: flex + flex-row + flex-nowrap */}
       <div
-        className="flex items-start flex-nowrap gap-6 animate-marquee w-max hover:[animation-play-state:paused] active:[animation-play-state:paused] focus:[animation-play-state:paused]"
+        className="flex flex-row flex-nowrap items-start gap-6 animate-marquee w-max hover:[animation-play-state:paused] active:[animation-play-state:paused] focus:[animation-play-state:paused]"
         tabIndex={0}
         role="region"
         aria-label="Carrusel de reseñas"
