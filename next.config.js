@@ -7,6 +7,7 @@ const nextConfig = {
         hostname: 'placehold.co',
       },
     ],
+    qualities: [60, 70, 75], // Configurado para soportar todos los quality values usados
   },
 }
 

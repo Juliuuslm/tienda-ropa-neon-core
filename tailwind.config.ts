@@ -71,16 +71,16 @@ const config: Config = {
           '100%': { transform: 'translateX(-50%)' },
         },
         float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '0%, 100%': { transform: 'translate3d(0, 0, 0)' },
+          '50%': { transform: 'translate3d(0, -20px, 0)' },
         },
         'spin-reverse': {
           from: { transform: 'rotate(360deg)' },
           to: { transform: 'rotate(0deg)' },
         },
         'grid-move': {
-          '0%': { backgroundPosition: '0 0' },
-          '100%': { backgroundPosition: '40px 40px' },
+          '0%': { transform: 'translate3d(0, 0, 0)' },
+          '100%': { transform: 'translate3d(40px, 40px, 0)' },
         },
         'text-reveal': {
           from: { transform: 'translateY(100%)', opacity: '0' },

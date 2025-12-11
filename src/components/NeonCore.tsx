@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import {
   Menu,
@@ -17,19 +17,27 @@ import {
   Activity,
 } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
+import ImageModal from '@/components/ui/ImageModal'
+import ReviewCarousel from '@/components/ui/ReviewCarousel'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
-import type { NavItem, ProductItem, Review, TechFeature } from '@/types'
+import type { NavItem, ProductItem, TechFeature, GalleryImage } from '@/types'
 
 const NeonCore: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
-  const [scrollY, setScrollY] = useState<number>(0)
   const [activeSection, setActiveSection] = useState<string>('')
-  const [reviewIds, setReviewIds] = useState<number[]>([])
   const [formEmail, setFormEmail] = useState<string>('')
   const [formStatus, setFormStatus] = useState<'idle' | 'validating' | 'success' | 'error'>('idle')
   const [formError, setFormError] = useState<string>('')
+
+  // Image Modal state
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
+  const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false)
+
+  // Refs para scroll sin re-renders
+  const scrollYRef = useRef<number>(0)
+  const heroParallaxRef = useRef<HTMLDivElement>(null)
 
   const navItems: NavItem[] = [
     { label: 'Colección', id: 'colección' },
@@ -40,47 +48,173 @@ const NeonCore: React.FC = () => {
     { label: 'Comunidad', id: 'comunidad' },
   ]
 
+  const lookbookImages: GalleryImage[] = [
+    {
+      src: '/images/lookbook/lookbook (1).jpg',
+      alt: 'Night Ops Hoodie',
+      title: 'Night Ops Hoodie',
+      description: 'Interceptado en Sector 7 durante operaciones nocturnas. La hoodie V2 se mantiene firme contra el frío urbano. Tejido heavyweight de 450gsm con capucha reforzada. Perfecta para misiones de infiltración o simplemente sobrevivir la madrugada.',
+      location: 'SECTOR_7',
+      id: 'NK_7842',
+    },
+    {
+      src: '/images/lookbook/lookbook (2).jpg',
+      alt: 'Street Recon',
+      title: 'Street Recon',
+      description: 'Transmisión detectada en zona comercial. El usuario porta equipamiento táctico completo con gorra 5-Panel anti-scan. Observado navegando entre multitudes sin ser detectado. El estampado reflectante mantiene visibilidad en condiciones de poca luz.',
+      location: 'DOWNTOWN_GRID',
+      id: 'NK_5129',
+    },
+    {
+      src: '/images/lookbook/lookbook (3).jpg',
+      alt: 'Urban Survival',
+      title: 'Urban Survival',
+      description: 'Captura satelital del distrito industrial. Sistema_Failure Tee combinada con accesorios tácticos. El sujeto demuestra perfecta adaptación al entorno urbano hostil. Estampado de alta densidad permanece intacto después de múltiples ciclos de desgaste.',
+      location: 'INDUSTRIAL_ZONE',
+      id: 'NK_8842',
+    },
+    {
+      src: '/images/lookbook/lookbook (4).jpg',
+      alt: 'Rooftop Operations',
+      title: 'Rooftop Operations',
+      description: 'Target identificado en elevación superior. Equipado con full Neon Core kit para operaciones en altura. La combinación de hoodie y pantalones cargo proporciona máxima movilidad. Distancia estimada: 40 metros. Estado: En vigilancia activa.',
+      location: 'ROOFTOP_ACCESS',
+      id: 'NK_3301',
+    },
+  ]
+
+  const socialImages: GalleryImage[] = [
+    {
+      src: '/images/social/social (1).jpg',
+      alt: 'Community Member 1',
+      title: 'Neo-Tokyo Runner',
+      description: 'Miembro verificado de la comunidad capturado en las calles de Neo-Tokyo. Portando hoodie clásica con diseño reflectante personalizado. La comunidad Neon Core se extiende por cada rincón del mundo digital y físico.',
+      location: 'NEO_TOKYO',
+      id: 'COM_1847',
+    },
+    {
+      src: '/images/social/social (2).jpg',
+      alt: 'Community Member 2',
+      title: 'Berlin Netrunner',
+      description: 'Transmisión desde Berlin underground. Este runner demuestra el poder del minimalismo táctico con la playera System_Failure. La comunidad crece, uno a uno, conectados por el código y el estilo.',
+      location: 'BERLIN_GRID',
+      id: 'COM_9214',
+    },
+    {
+      src: '/images/social/social (3).jpg',
+      alt: 'Community Member 3',
+      title: 'Los Angeles Rebel',
+      description: 'Detectado en el distrito artístico de LA. La gorra Neural_Link se ha convertido en símbolo de resistencia urbana. Cada pieza cuenta una historia, cada usuario es parte del movimiento.',
+      location: 'LA_ARTS_DISTRICT',
+      id: 'COM_7653',
+    },
+    {
+      src: '/images/social/social (4).jpg',
+      alt: 'Community Member 4',
+      title: 'London Street Artist',
+      description: 'Captura nocturna en East London. El sujeto customizó su hoodie con parches de código hex. La comunidad no solo viste Neon Core, la vive, la modifica, la hace suya. Esto es más que ropa, es identidad.',
+      location: 'EAST_LONDON',
+      id: 'COM_4129',
+    },
+  ]
+
   useEffect(() => {
+    let ticking = false
+    let sectionCalcTick = false
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-      setScrollY(window.scrollY)
+      const scrollPos = window.scrollY
+      scrollYRef.current = scrollPos
 
-      // Detect active section
-      const sections = navItems.map((item) => {
-        const element = document.getElementById(item.id)
-        return element
-          ? {
-              id: item.id,
-              top: element.offsetTop,
-              height: element.offsetHeight,
-            }
-          : null
-      }).filter(Boolean)
+      // Update parallax directo al DOM (NO causa re-render)
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (heroParallaxRef.current) {
+            heroParallaxRef.current.style.transform = `translateY(${scrollPos * 0.5}px)`
+          }
 
-      const currentScroll = window.scrollY + 150
-      const current = sections.find(
-        (section) =>
-          section &&
-          currentScroll >= section.top &&
-          currentScroll < section.top + section.height
-      )
-      setActiveSection(current?.id || '')
+          // Solo actualizar scrolled cuando cruza threshold
+          const isScrolled = scrollPos > 50
+          if (isScrolled !== scrolled) {
+            setScrolled(isScrolled)
+          }
+
+          ticking = false
+        })
+        ticking = true
+      }
+
+      // Throttle cálculo de active section a cada 100ms
+      if (!sectionCalcTick) {
+        setTimeout(() => {
+          const sections = navItems.map((item) => {
+            const element = document.getElementById(item.id)
+            return element
+              ? {
+                  id: item.id,
+                  top: element.offsetTop,
+                  height: element.offsetHeight,
+                }
+              : null
+          }).filter(Boolean)
+
+          const currentScroll = scrollYRef.current + 150
+          const current = sections.find(
+            (section) =>
+              section &&
+              currentScroll >= section.top &&
+              currentScroll < section.top + section.height
+          )
+          const newActiveSection = current?.id || ''
+          if (newActiveSection !== activeSection) {
+            setActiveSection(newActiveSection)
+          }
+          sectionCalcTick = false
+        }, 100)
+        sectionCalcTick = true
+      }
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
-  // Generate review IDs only on client to avoid hydration mismatch
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [scrolled, activeSection, navItems])
+
+  // Bloquear scroll cuando el Modal VIP está abierto
   useEffect(() => {
-    setReviewIds([
-      Math.floor(Math.random() * 9000) + 1000,
-      Math.floor(Math.random() * 9000) + 1000,
-      Math.floor(Math.random() * 9000) + 1000,
-    ])
-  }, [])
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isModalOpen])
+
+  // Bloquear scroll cuando el Mobile Menu está abierto
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMenuOpen])
 
   const modalRef = useFocusTrap(isModalOpen)
   const toggleModal = (): void => setIsModalOpen(!isModalOpen)
+
+  const openImageModal = (image: GalleryImage): void => {
+    setSelectedImage(image)
+    setIsImageModalOpen(true)
+  }
+
+  const closeImageModal = (): void => {
+    setIsImageModalOpen(false)
+    setTimeout(() => setSelectedImage(null), 300) // Delay para animación de salida
+  }
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -132,6 +266,7 @@ const NeonCore: React.FC = () => {
             ? 'bg-black/80 backdrop-blur-lg border-cyan-500/20 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
             : 'bg-transparent border-transparent py-6'
         }`}
+        style={scrolled ? { willChange: 'backdrop-filter' } : undefined}
       >
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="text-2xl font-display font-bold tracking-tighter italic group cursor-pointer">
@@ -213,7 +348,11 @@ const NeonCore: React.FC = () => {
 
       {/* --- SECCIÓN 2: HERO (Cinematic Entry + Cyber Reactor Center) --- */}
       <section id="main-content" className="relative min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:h-screen w-full flex items-center justify-center overflow-hidden border-b border-cyan-900/30">
-        <div className="absolute inset-0 z-0" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
+        <div
+          ref={heroParallaxRef}
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{ willChange: 'transform' }}
+        >
           <Image
             src="/images/hero/hero.jpg"
             alt="Cyberpunk City"
@@ -228,16 +367,16 @@ const NeonCore: React.FC = () => {
 
         {/* --- EFECTO: CYBER REACTOR CORE (CENTER) --- */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none z-0 opacity-60 hidden md:block">
-          <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow border-dashed"></div>
+          <div className="absolute inset-0 border border-cyan-500/10 rounded-full animate-spin-slow border-dashed" style={{ willChange: 'transform' }}></div>
 
-          <div className="absolute inset-[15%] border border-purple-500/20 rounded-full animate-spin-reverse-slow border-dotted shadow-[0_0_30px_rgba(168,85,247,0.1)]"></div>
+          <div className="absolute inset-[15%] border border-purple-500/20 rounded-full animate-spin-reverse-slow border-dotted shadow-[0_0_30px_rgba(168,85,247,0.1)]" style={{ willChange: 'transform' }}></div>
 
-          <div className="absolute inset-[30%] border-t-2 border-b-2 border-transparent border-t-cyan-400/30 border-b-cyan-400/30 rounded-full animate-spin duration-[3s]"></div>
+          <div className="absolute inset-[30%] border-t-2 border-b-2 border-transparent border-t-cyan-400/30 border-b-cyan-400/30 rounded-full animate-spin duration-[3s]" style={{ willChange: 'transform' }}></div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]" style={{ willChange: 'transform' }}></div>
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full border border-cyan-400/20 animate-[pulse-ring_3s_ease-out_infinite]"
-            style={{ animationDelay: '1s' }}
+            style={{ animationDelay: '1s', willChange: 'transform' }}
           ></div>
 
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent"></div>
@@ -382,10 +521,14 @@ const NeonCore: React.FC = () => {
           </div>
           <div className="relative h-[500px] border border-white/20 p-2 group overflow-hidden">
             <div className="absolute inset-0 bg-cyan-500/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-slow z-20"></div>
-            <img
+            <Image
               src="/images/manifiesto/about.jpg"
               alt="Modelo Hoodie"
-              className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-slower ease-out"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={75}
+              loading="lazy"
+              className="object-cover grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-slower ease-out"
             />
             <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none z-30 shadow-[0_0_10px_#22d3ee]"></div>
           </div>
@@ -438,16 +581,32 @@ const NeonCore: React.FC = () => {
               style={{ transitionDelay: `${idx * 150}ms` }}
             >
               <div className="aspect-[3/4] overflow-hidden relative">
-                <img
+                <Image
                   src={item.img}
                   alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-slower group-hover:scale-105 opacity-70 group-hover:opacity-100"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={70}
+                  loading="lazy"
+                  className="object-cover transition-transform duration-slower group-hover:scale-105 opacity-70 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
               </div>
 
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
-                <div className="bg-black/80 backdrop-blur-md p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base">
+              {/* Mobile: Botón simple en la parte inferior */}
+              <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 z-20">
+                <button
+                  onClick={toggleModal}
+                  className="bg-cyan-400 text-black px-6 py-3 font-bold uppercase tracking-wider hover:bg-white transition-all duration-base w-full min-h-[44px] flex items-center justify-between"
+                >
+                  <span>Comprar</span>
+                  <span className="font-mono">{item.price}</span>
+                </button>
+              </div>
+
+              {/* Desktop: Overlay completo con hover reveal */}
+              <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center p-6 text-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
+                <div className="bg-black/95 p-6 border border-cyan-500/30 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base">
                   <Lock className="w-8 h-8 text-cyan-400 mb-2 mx-auto" />
                   <h3 className="text-xl font-bold uppercase mb-1">
                     {item.name}
@@ -462,7 +621,7 @@ const NeonCore: React.FC = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-base">
+              <div className="hidden md:block absolute bottom-0 left-0 w-full p-4 z-10 group-hover:translate-y-full transition-transform duration-base">
                 <div className="flex justify-between items-end border-t border-white/20 pt-4">
                   <h3 className="text-xl font-bold uppercase">{item.name}</h3>
                   <span className="text-cyan-400 font-mono">{item.price}</span>
@@ -485,11 +644,17 @@ const NeonCore: React.FC = () => {
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-cyan-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border border-purple-500/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
 
-              <img
-                src="/images/tech/tech.jpg"
-                alt="Tech Fabric"
-                className="relative z-10 w-full rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-float"
-              />
+              <div className="relative z-10 w-full aspect-square rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.2)] animate-float overflow-hidden">
+                <Image
+                  src="/images/tech/tech.jpg"
+                  alt="Tech Fabric"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={75}
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </div>
             </div>
 
             <SectionWrapper className="order-1 md:order-2">
@@ -546,76 +711,42 @@ const NeonCore: React.FC = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-2 h-auto md:h-[600px]">
-          <div className="col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
-            <Image
-              src="/images/lookbook/lookbook (1).jpg"
-              alt="Look 1"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-            <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-              <div className="border-l-2 border-cyan-400 pl-3">
-                <span className="bg-black text-cyan-400 text-xs px-2 py-1 font-mono mb-1 inline-block">
-                  LOC: SECTOR_7
-                </span>
-                <p className="text-white font-bold uppercase text-lg">
-                  Night Ops Hoodie
-                </p>
+          {lookbookImages.map((image, i) => {
+            const gridClasses = i === 0 || i === 3
+              ? 'col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto'
+              : 'col-span-1 sm:col-span-1 md:col-span-1 aspect-square'
+
+            return (
+              <div
+                key={i}
+                className={`${gridClasses} relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow cursor-pointer`}
+                onClick={() => openImageModal(image)}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center">
+                  <div className="bg-black/80 border border-cyan-400/50 px-4 py-3">
+                    <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider">
+                      Click para ampliar
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
               </div>
-            </div>
-            <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
-          </div>
-
-          <div className="col-span-1 sm:col-span-1 md:col-span-1 md:row-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-slow">
-            <Image
-              src="/images/lookbook/lookbook (2).jpg"
-              alt="Look 2"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
-            />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 backdrop-blur-sm">
-              <Activity className="text-cyan-400" />
-            </div>
-          </div>
-
-          <div className="col-span-1 sm:col-span-1 md:col-span-1 aspect-square relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-base">
-            <Image
-              src="/images/lookbook/lookbook (3).jpg"
-              alt="Look 3"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 25vw"
-            />
-            <div className="absolute bottom-2 right-2 text-[10px] font-mono text-cyan-400 bg-black/80 px-2">
-              IMG_8842.RAW
-            </div>
-          </div>
-
-          <div className="col-span-1 sm:col-span-2 md:col-span-2 aspect-square sm:aspect-[4/3] md:aspect-auto relative group overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-base">
-            <Image
-              src="/images/lookbook/lookbook (4).jpg"
-              alt="Look 4"
-              fill
-              className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-            />
-            <div className="absolute top-4 right-4 border border-white/30 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-base">
-              <div className="text-[10px] text-white font-mono leading-tight">
-                TARGET: UNKNOWN
-                <br />
-                DIST: 40M
-              </div>
-            </div>
-          </div>
+            )
+          })}
         </div>
       </SectionWrapper>
 
       {/* --- SECCIÓN NUEVA 8: ENCRYPTED TRANSMISSIONS (Testimonials) --- */}
       <SectionWrapper
         id="reviews"
-        className="py-24 bg-zinc-950 relative overflow-hidden"
+        className="py-24 bg-zinc-950 relative overflow-x-visible overflow-y-hidden"
       >
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(34,211,238,0.15) 1px, transparent 0)', backgroundSize: '20px 20px' }}></div>
 
@@ -623,8 +754,10 @@ const NeonCore: React.FC = () => {
           <h2 className="text-center text-4xl font-display font-bold uppercase mb-16">
             Opiniones <span className="text-stroke text-white">Reales</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
+        </div>
+
+        <ReviewCarousel
+          reviews={[
               {
                 user: 'KAI_ZEN',
                 role: 'Netrunner',
@@ -643,60 +776,34 @@ const NeonCore: React.FC = () => {
                 text: 'El print de la playera "Failure" no se ha desgastado después de 20 lavadas. Calidad sólida.',
                 rating: 4,
               },
-            ].map((review: Review, i: number) => {
-              const reviewImages = [
-                '/images/reviews/reviwes (1).jpg',
-                '/images/reviews/reviwes (2).jpg',
-                '/images/reviews/reviwes (3).jpg',
-                '/images/reviews/reviwes (4).jpg',
-              ];
-              return (
-              <div
-                key={i}
-                className="bg-black border border-white/10 p-8 hover:border-cyan-400/50 transition-all duration-base relative group hover:-translate-y-2"
-              >
-                <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
-                  <img
-                    src={reviewImages[i] || '/images/reviews/reviwes (1).jpg'}
-                    alt={review.user}
-                    className="w-12 h-12 rounded-sm border border-cyan-500/30 object-cover group-hover:border-cyan-400 transition-colors duration-base"
-                  />
-                  <div>
-                    <h4 className="font-bold text-white uppercase tracking-wider">
-                      {review.user}
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-[10px] text-gray-500 font-mono uppercase">
-                        {review.role}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-300 mb-6 font-mono text-sm leading-relaxed relative">
-                  <span className="text-cyan-500/30 absolute -left-2 -top-2 text-2xl">
-                    "
-                  </span>
-                  {review.text}
-                </p>
-                <div className="flex justify-between items-center">
-                  <div className="flex text-cyan-400 gap-1">
-                    {[...Array(review.rating)].map((_, r) => (
-                      <Zap key={r} size={14} fill="currentColor" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-gray-600 font-mono">
-                    ID: #{reviewIds[i] || '????'}
-                  </span>
-                </div>
-
-                <div className="absolute top-0 right-0 w-0 h-0 border-t-2 border-r-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-base"></div>
-                <div className="absolute bottom-0 left-0 w-0 h-0 border-b-2 border-l-2 border-cyan-500 opacity-0 group-hover:opacity-100 group-hover:w-4 group-hover:h-4 transition-all duration-base"></div>
-              </div>
-            );
-            })}
-          </div>
-        </div>
+              {
+                user: 'CL-URIEL',
+                role: 'Code Runner',
+                text: 'Perfecto para largas sesiones de trabajo. La capucha aísla del ruido externo y el tejido es premium. Ya pedí otra.',
+                rating: 5,
+              },
+              {
+                user: 'FERDINAND',
+                role: 'Street Poet',
+                text: 'Neon Core no es solo ropa, es una actitud. Cada vez que la uso siento que soy parte de algo mayor.',
+                rating: 5,
+              },
+              {
+                user: 'ZELDA',
+                role: 'Cyber Cartographer',
+                text: 'Resistencia sin comprometer el estilo. Los detalles tácticos son funcionales y la calidad es inmediata al tacto.',
+                rating: 5,
+              },
+            ]}
+            reviewImages={[
+              '/images/reviews/reviwes (1).jpg',
+              '/images/reviews/reviwes (2).jpg',
+              '/images/reviews/reviwes (3).jpg',
+              '/images/reviews/reviwes (4).jpg',
+              '/images/reviews/reviwes (1).jpg',
+              '/images/reviews/reviwes (2).jpg',
+            ]}
+          />
       </SectionWrapper>
 
       {/* --- SECCIÓN 9: SOCIAL (Grid Stagger) --- */}
@@ -705,23 +812,26 @@ const NeonCore: React.FC = () => {
           Comunidad <span className="text-stroke text-white">Global</span>
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            '/images/social/social (1).jpg',
-            '/images/social/social (2).jpg',
-            '/images/social/social (3).jpg',
-            '/images/social/social (4).jpg',
-          ].map((img: string, i: number) => (
+          {socialImages.map((image, i) => (
             <div
               key={i}
               className="relative group aspect-square overflow-hidden cursor-pointer border border-transparent hover:border-cyan-400 transition-all duration-base"
+              onClick={() => openImageModal(image)}
             >
-              <img
-                src={img}
-                className="w-full h-full object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
-                alt={`Social ${i + 1}`}
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                quality={70}
+                loading="lazy"
+                className="object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
               />
-              <div className="absolute inset-0 bg-cyan-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                <Instagram className="text-white w-10 h-10 animate-bounce" />
+              <div className="absolute inset-0 bg-cyan-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                <Activity className="text-white w-10 h-10" />
+                <p className="text-white font-mono text-xs uppercase tracking-wider">
+                  Ver Detalles
+                </p>
               </div>
             </div>
           ))}
@@ -768,7 +878,7 @@ const NeonCore: React.FC = () => {
 
       {/* --- FOOTER --- */}
       <footer className="bg-black border-t border-white/10 pt-16 pb-8">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
           <div>
             <h3 className="font-display text-2xl font-bold italic mb-4">
               NEON CORE
@@ -777,42 +887,67 @@ const NeonCore: React.FC = () => {
               Ropa técnica para la era post-digital. Diseñado en 2088.
             </p>
           </div>
-          <div className="col-span-1 md:col-span-2 flex justify-around">
-            <div>
-              <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
-                Shop
-              </h4>
-              <ul className="space-y-2 text-gray-300 text-sm">
-                {['Novedades', 'Hombres', 'Mujeres', 'Accesorios'].map(
-                  (item) => (
-                    <li
-                      key={item}
-                      className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
-                    >
-                      <span className="inline-block opacity-0 -ml-2 group-hover:opacity-100 transition-opacity">
-                        ›
-                      </span>{' '}
-                      {item}
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
-                Legal
-              </h4>
-              <ul className="space-y-2 text-gray-300 text-sm">
-                {['Términos', 'Privacidad', 'Envíos'].map((item) => (
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Shop
+            </h4>
+            <ul className="space-y-2 text-gray-300 text-sm">
+              {['Novedades', 'Hombres', 'Mujeres', 'Accesorios'].map(
+                (item) => (
                   <li
                     key={item}
                     className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
                   >
+                    <span className="inline-block opacity-0 -ml-2 group-hover:opacity-100 transition-opacity">
+                      ›
+                    </span>{' '}
                     {item}
                   </li>
-                ))}
-              </ul>
-            </div>
+                )
+              )}
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Legal
+            </h4>
+            <ul className="space-y-2 text-gray-300 text-sm">
+              {['Términos', 'Privacidad', 'Envíos'].map((item) => (
+                <li
+                  key={item}
+                  className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Contacto
+            </h4>
+            <ul className="space-y-3 text-gray-300 text-sm">
+              <li>
+                <a
+                  href="mailto:contacto@aurora33.org"
+                  className="hover:text-cyan-400 hover:translate-x-1 transition-all duration-base inline-flex items-center gap-2"
+                  aria-label="Enviar email"
+                >
+                  <span className="text-cyan-400">✉</span> contacto@aurora33.org
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/525574533388?text=Hola%20Aurora33"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cyan-400 hover:translate-x-1 transition-all duration-base inline-flex items-center gap-2"
+                  aria-label="Chatear por WhatsApp"
+                >
+                  <span className="text-cyan-400">💬</span> +52 55 7453 3388
+                </a>
+              </li>
+            </ul>
           </div>
           <div>
             <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
@@ -832,17 +967,28 @@ const NeonCore: React.FC = () => {
           </div>
         </div>
         <div className="text-center text-gray-700 text-xs font-mono uppercase border-t border-gray-900 pt-8">
-          © 2024 Neon Core Systems. All rights reserved.
+          Copyright © 2025 Neon Core. Built with love and AI by{' '}
+          <a
+            href="#"
+            className="text-cyan-400 hover:text-white hover:underline transition-colors duration-base"
+          >
+            aurora33
+          </a>
         </div>
       </footer>
 
       {/* --- MODAL POPUP (CRT & Scanline Animation) --- */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity"
             onClick={toggleModal}
+            onTouchEnd={(e) => {
+              e.preventDefault()
+              toggleModal()
+            }}
             aria-hidden="true"
+            style={{ willChange: 'backdrop-filter' }}
           ></div>
           <div
             ref={modalRef}
@@ -850,19 +996,11 @@ const NeonCore: React.FC = () => {
             aria-modal="true"
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
-            className="bg-black border border-cyan-400 p-6 sm:p-8 md:p-12 relative z-10 w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-w-lg shadow-[0_0_60px_rgba(34,211,238,0.4)] animate-modal-entry overflow-hidden"
+            className="bg-black border border-cyan-400 p-6 sm:p-8 md:p-12 relative z-10 w-full max-w-[calc(100%-2rem)] sm:max-w-md md:max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_0_60px_rgba(34,211,238,0.4)] animate-modal-entry"
             style={{ animation: 'modalEntry 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' }}
           >
             <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-20"></div>
             <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/30 animate-[scanline_3s_linear_infinite] pointer-events-none z-20"></div>
-
-            <button
-              onClick={toggleModal}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white transition-all duration-base focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:rounded-sm"
-              aria-label="Cerrar modal"
-            >
-              <X className="w-6 h-6" />
-            </button>
 
             <div className="text-center relative z-30">
               <div className="inline-block p-4 rounded-full bg-cyan-900/20 text-cyan-400 mb-6 border border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]">
@@ -943,9 +1081,29 @@ const NeonCore: React.FC = () => {
               <p className="text-[10px] text-gray-600 mt-4 uppercase tracking-widest">
                 Encrypted Connection // Secure Protocol
               </p>
+              <button
+                onClick={toggleModal}
+                className="mt-6 text-cyan-400 hover:text-white text-xs uppercase tracking-wider border border-cyan-400/30 hover:border-cyan-400 px-8 py-2 transition-all duration-base"
+              >
+                Cerrar
+              </button>
             </div>
           </div>
         </div>
+      )}
+
+      {/* --- IMAGE MODAL --- */}
+      {selectedImage && (
+        <ImageModal
+          isOpen={isImageModalOpen}
+          onClose={closeImageModal}
+          imageSrc={selectedImage.src}
+          imageAlt={selectedImage.alt}
+          title={selectedImage.title}
+          description={selectedImage.description}
+          location={selectedImage.location}
+          id={selectedImage.id}
+        />
       )}
     </main>
   )

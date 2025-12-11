@@ -3,7 +3,14 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; /* Activo para mobile (Lenis disabled < 1024px) */
+  }
+
+  /* Deshabilitar scroll-behavior en desktop donde Lenis está activo */
+  @media (min-width: 1024px) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   ::-webkit-scrollbar {
@@ -51,10 +58,12 @@
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
+    will-change: transform;
   }
 
   .animate-grid {
     animation: grid-move 3s linear infinite;
+    will-change: transform;
   }
 
   .animate-spin-slow {
@@ -113,6 +122,15 @@
     text-shadow: -1px 0 #00fff9;
     clip-path: inset(50% 0 30% 0);
     animation: glitch 0.3s infinite linear alternate-reverse;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 

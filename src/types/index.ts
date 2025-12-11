@@ -27,3 +27,12 @@ export interface LookbookImage {
   colSpan?: number
   rowSpan?: number
 }
+
+export interface GalleryImage {
+  src: string
+  alt: string
+  title: string
+  description: string
+  location?: string
+  id?: string
+}
