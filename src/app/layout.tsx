@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   description:
     'Hoodies, playeras y gorras premium de calidad superior. Diseño urbano moderno, tejidos duraderos y estilo que define tu identidad.',
   keywords: ['streetwear', 'hoodie premium', 'moda urbana', 'ropa de calidad', 'neon'],
+  icons: {
+    icon: '/favicon/Favicon-neoncore.png',
+    apple: '/favicon/Favicon-neoncore.png',
+  },
   openGraph: {
     title: 'Neon Core - Moda del Futuro',
     description:
