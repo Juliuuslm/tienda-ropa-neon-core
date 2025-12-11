@@ -942,7 +942,13 @@ const NeonCore: React.FC = () => {
           </div>
         </div>
         <div className="text-center text-gray-700 text-xs font-mono uppercase border-t border-gray-900 pt-8">
-          © 2024 Neon Core Systems. All rights reserved.
+          Copyright © 2025 Neon Core. Built with love and AI by{' '}
+          <a
+            href="#"
+            className="text-cyan-400 hover:text-white hover:underline transition-colors duration-base"
+          >
+            aurora33
+          </a>
         </div>
       </footer>
 
