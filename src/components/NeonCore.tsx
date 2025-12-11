@@ -878,7 +878,7 @@ const NeonCore: React.FC = () => {
 
       {/* --- FOOTER --- */}
       <footer className="bg-black border-t border-white/10 pt-16 pb-8">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
           <div>
             <h3 className="font-display text-2xl font-bold italic mb-4">
               NEON CORE
@@ -887,42 +887,67 @@ const NeonCore: React.FC = () => {
               Ropa técnica para la era post-digital. Diseñado en 2088.
             </p>
           </div>
-          <div className="col-span-1 md:col-span-2 flex justify-around">
-            <div>
-              <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
-                Shop
-              </h4>
-              <ul className="space-y-2 text-gray-300 text-sm">
-                {['Novedades', 'Hombres', 'Mujeres', 'Accesorios'].map(
-                  (item) => (
-                    <li
-                      key={item}
-                      className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
-                    >
-                      <span className="inline-block opacity-0 -ml-2 group-hover:opacity-100 transition-opacity">
-                        ›
-                      </span>{' '}
-                      {item}
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
-                Legal
-              </h4>
-              <ul className="space-y-2 text-gray-300 text-sm">
-                {['Términos', 'Privacidad', 'Envíos'].map((item) => (
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Shop
+            </h4>
+            <ul className="space-y-2 text-gray-300 text-sm">
+              {['Novedades', 'Hombres', 'Mujeres', 'Accesorios'].map(
+                (item) => (
                   <li
                     key={item}
                     className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
                   >
+                    <span className="inline-block opacity-0 -ml-2 group-hover:opacity-100 transition-opacity">
+                      ›
+                    </span>{' '}
                     {item}
                   </li>
-                ))}
-              </ul>
-            </div>
+                )
+              )}
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Legal
+            </h4>
+            <ul className="space-y-2 text-gray-300 text-sm">
+              {['Términos', 'Privacidad', 'Envíos'].map((item) => (
+                <li
+                  key={item}
+                  className="hover:text-cyan-400 hover:translate-x-2 transition-all duration-base cursor-pointer block"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
+              Contacto
+            </h4>
+            <ul className="space-y-3 text-gray-300 text-sm">
+              <li>
+                <a
+                  href="mailto:contacto@aurora33.org"
+                  className="hover:text-cyan-400 hover:translate-x-1 transition-all duration-base inline-flex items-center gap-2"
+                  aria-label="Enviar email"
+                >
+                  <span className="text-cyan-400">✉</span> contacto@aurora33.org
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/525574533388?text=Hola%20Aurora33"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cyan-400 hover:translate-x-1 transition-all duration-base inline-flex items-center gap-2"
+                  aria-label="Chatear por WhatsApp"
+                >
+                  <span className="text-cyan-400">💬</span> +52 55 7453 3388
+                </a>
+              </li>
+            </ul>
           </div>
           <div>
             <h4 className="font-bold uppercase mb-4 text-sm tracking-widest text-cyan-400">
