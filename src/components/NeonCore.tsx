@@ -14,7 +14,7 @@ import {
   Instagram,
   Twitter,
   Youtube,
-  Activity,
+  Search,
 } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
 import ImageModal from '@/components/ui/ImageModal'
@@ -729,11 +729,21 @@ const NeonCore: React.FC = () => {
                   className="object-cover transition-transform duration-slower group-hover:scale-105 grayscale group-hover:grayscale-0"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center">
-                  <div className="bg-black/80 border border-cyan-400/50 px-4 py-3">
-                    <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider">
-                      Click para ampliar
-                    </p>
+                {/* Mobile Indicator - Always Visible */}
+                <div className="absolute bottom-2 right-2 md:hidden flex items-center gap-1 bg-black/80 border border-cyan-400/70 rounded-sm px-2 py-1.5 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                  <Search className="w-4 h-4 text-cyan-400 animate-pulse" />
+                  <span className="text-cyan-400 font-mono text-xs uppercase tracking-wider">Ver</span>
+                </div>
+
+                {/* Desktop Overlay - Hover Only */}
+                <div className="hidden md:flex absolute inset-0 bg-cyan-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex-col justify-center items-center">
+                  <div className="bg-black/80 border border-cyan-400/50 px-4 py-3 shadow-[0_0_20px_rgba(34,211,238,0.3)]">
+                    <div className="flex items-center gap-2">
+                      <Search className="w-5 h-5 text-cyan-400" />
+                      <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider">
+                        Ver Detalles
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div className="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 opacity-0 group-hover:opacity-100 group-hover:animate-[scanline_1.5s_linear_infinite] pointer-events-none"></div>
@@ -827,8 +837,14 @@ const NeonCore: React.FC = () => {
                 loading="lazy"
                 className="object-cover transition-transform duration-slow group-hover:scale-105 group-hover:rotate-2"
               />
-              <div className="absolute inset-0 bg-cyan-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
-                <Activity className="text-white w-10 h-10" />
+              {/* Mobile Indicator - Always Visible */}
+              <div className="absolute bottom-2 right-2 md:hidden flex items-center gap-1 bg-black/80 border border-cyan-400/70 rounded-sm px-2 py-1.5 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                <Search className="w-4 h-4 text-cyan-400 animate-pulse" />
+              </div>
+
+              {/* Desktop Overlay - Hover Only */}
+              <div className="hidden md:flex absolute inset-0 bg-cyan-900/80 opacity-0 group-hover:opacity-100 transition-opacity flex-col items-center justify-center gap-2">
+                <Search className="text-white w-8 h-8" />
                 <p className="text-white font-mono text-xs uppercase tracking-wider">
                   Ver Detalles
                 </p>
