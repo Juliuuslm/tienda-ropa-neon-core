@@ -50,14 +50,14 @@ export default function ReviewCarousel({
 
   return (
     <div
-      className="relative w-full py-8"
+      className="w-full py-8"
       onMouseEnter={pause}
       onMouseLeave={resume}
     >
       {/* Scroll Container */}
       <div
         ref={containerRef}
-        className="flex gap-6 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory px-4 md:px-6 lg:px-8"
+        className="flex gap-6 overflow-x-scroll scrollbar-hide scroll-smooth snap-x snap-mandatory px-4 md:px-6 lg:px-8 mb-8"
         role="region"
         aria-label="Carrusel de reseñas"
       >
@@ -71,24 +71,29 @@ export default function ReviewCarousel({
         ))}
       </div>
 
-      {/* Navigation Arrows */}
-      <NavigationButton
-        direction="prev"
-        onClick={scrollPrev}
-        disabled={!canScrollPrev}
-      />
-      <NavigationButton
-        direction="next"
-        onClick={scrollNext}
-        disabled={!canScrollNext}
-      />
+      {/* Navigation Controls - Bottom Section */}
+      <div className="flex justify-center items-center gap-4 md:gap-6 px-4">
+        {/* Previous Button */}
+        <NavigationButton
+          direction="prev"
+          onClick={scrollPrev}
+          disabled={!canScrollPrev}
+        />
 
-      {/* Dots Indicators */}
-      <DotsIndicators
-        totalDots={Math.ceil(reviews.length / 3)}
-        currentIndex={Math.floor(currentIndex / 3)}
-        onDotClick={(dotIndex) => scrollToIndex(dotIndex * 3)}
-      />
+        {/* Dots Indicators */}
+        <DotsIndicators
+          totalDots={Math.ceil(reviews.length / 3)}
+          currentIndex={Math.floor(currentIndex / 3)}
+          onDotClick={(dotIndex) => scrollToIndex(dotIndex * 3)}
+        />
+
+        {/* Next Button */}
+        <NavigationButton
+          direction="next"
+          onClick={scrollNext}
+          disabled={!canScrollNext}
+        />
+      </div>
     </div>
   )
 }
@@ -102,15 +107,13 @@ interface NavigationButtonProps {
 
 function NavigationButton({ direction, onClick, disabled }: NavigationButtonProps) {
   const Icon = direction === 'prev' ? ChevronLeft : ChevronRight
-  const position = direction === 'prev' ? 'left-2 md:left-4' : 'right-2 md:right-4'
 
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={`
-        absolute ${position} top-1/2 -translate-y-1/2 z-10
-        w-10 h-10 md:w-12 md:h-12
+        w-10 h-10 md:w-11 md:h-11
         bg-black/80 backdrop-blur-sm
         border border-white/10 rounded-sm
         flex items-center justify-center
@@ -121,6 +124,7 @@ function NavigationButton({ direction, onClick, disabled }: NavigationButtonProp
         disabled:hover:border-white/10 disabled:hover:shadow-none
         transition-all duration-300
         focus-visible:outline-2 focus-visible:outline-cyan-400
+        flex-shrink-0
       `}
       aria-label={direction === 'prev' ? 'Reseña anterior' : 'Siguiente reseña'}
       aria-disabled={disabled}
